@@ -1,0 +1,7 @@
+{
+  "gamerule.inventorySizeX": "Inventory horizontal size",
+  "gamerule.inventorySizeY": "Inventory vertical size",
+  "gamerule.hotbarSizeX": "Hotbar horizontal size",
+  "gamerule.hotbarSizeY": "Hotbar vertical size",
+  "key.inventoryOverhaulModifier": "Inventory Overhaul Modifier"
+}
