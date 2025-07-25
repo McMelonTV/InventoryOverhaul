@@ -46,6 +46,7 @@ public abstract class MixinGui {
         guiGraphics.pose().pushPose();
         guiGraphics.pose().translate(0.0F, 0.0F, -90.0F);
 
+        // draw slots
         for (int y = 0; y < hotbar.getSizeY(); y++) {
             for (int x = 0; x < hotbar.getSizeX(); x++) {
                 int posX = 10 + x * 20;
@@ -57,6 +58,7 @@ public abstract class MixinGui {
             }
         }
 
+        // draw a black outline around the hotbar
         int hotbarX = hotbar.getSizeX();
         int hotbarY = hotbar.getSizeY();
 
@@ -67,6 +69,7 @@ public abstract class MixinGui {
         guiGraphics.fill(9, 9, 10, 10 + hotbarY * 20, 0xFF000000);
         guiGraphics.fill(9 + hotbarX * 20, 9, 10 + hotbarX * 20, 10 + hotbarY * 20, 0xFF000000);
 
+        // draw the selected slot
         int selectedSlot = player.getInventory().getSelectedSlot();
         int selectedX = selectedSlot % hotbar.getSizeX();
         int selectedY = selectedSlot / hotbar.getSizeX();
@@ -78,6 +81,7 @@ public abstract class MixinGui {
                 RenderType::guiTextured, HOTBAR_SELECTION_SPRITE, selectedPosX, selectedPosY, 22, 22
         );
 
+        // draw outline around selected slot
         boolean firstX = selectedX == 0;
         boolean lastX = selectedX == hotbar.getSizeX() - 1;
         boolean firstY = selectedY == 0;
