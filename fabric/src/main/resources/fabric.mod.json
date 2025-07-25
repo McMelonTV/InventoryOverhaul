@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 1,
+  "id": "inventoryoverhaul",
+  "version": "${version}",
+  "name": "InventoryOverhaul",
+  "description": "A mod that aims to improve inventory management by changing the core aspects of the player's inventory and hotbar.",
+  "authors": [
+    "mel (https://github.com/McMelonTV)"
+  ],
+  "contact": {
+    "homepage": ""
+  },
+  "license": "MIT",
+  "icon": "assets/inventoryoverhaul/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "ing.boykiss.inventoryoverhaul.fabric.InventoryOverhaulFabric"
+    ],
+    "client": [
+      "ing.boykiss.inventoryoverhaul.fabric.client.InventoryOverhaulFabricClient"
+    ]
+  },
+  "mixins": [
+    "inventoryoverhaul.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.16.14",
+    "minecraft": "~1.21.5",
+    "java": ">=21",
+    "architectury": ">=16.1.4",
+    "fabric-api": "*"
+  },
+  "suggests": {
+    "another-mod": "*"
+  }
+}
