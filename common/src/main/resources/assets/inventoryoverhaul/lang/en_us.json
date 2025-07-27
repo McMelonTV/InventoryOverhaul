@@ -5,5 +5,11 @@
   "gamerule.hotbarSizeY": "Hotbar vertical size (row count)",
   "key.inventoryOverhaulModifier": "Inventory Overhaul Modifier",
   "options.inventory_settings": "Inventory Settings...",
-  "options.inventory_settings.title": "Inventory Settings"
+  "options.inventory_settings.title": "Inventory Settings",
+  "options.hotbarScrollDirection": "Hotbar Scroll Direction: %s",
+  "options.hotbarScrollDirection.ROW": "Row",
+  "options.hotbarScrollDirection.COLUMN": "Column",
+  "options.hotbarScrollMode": "Hotbar Scroll Mode: %s",
+  "options.hotbarScrollMode.CONTINUOUS": "Continuous",
+  "options.hotbarScrollMode.SPLIT": "Split"
 }
