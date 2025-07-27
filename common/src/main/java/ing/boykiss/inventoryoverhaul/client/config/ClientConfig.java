@@ -5,6 +5,8 @@ import ing.boykiss.inventoryoverhaul.util.annotations.RequireFieldAnnotation;
 import lombok.Getter;
 import lombok.Setter;
 
+// TODO: hotbar position
+
 @Getter
 @Setter
 @RequireFieldAnnotation(ConfigOption.class)

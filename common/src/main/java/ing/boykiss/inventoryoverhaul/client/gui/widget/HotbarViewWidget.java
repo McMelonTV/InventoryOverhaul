@@ -10,6 +10,7 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.phys.Vec2;
 import org.jetbrains.annotations.NotNull;
 
 public class HotbarViewWidget implements Renderable {
@@ -24,6 +25,28 @@ public class HotbarViewWidget implements Renderable {
         this.hotbar = ((IMixinInventory) player.getInventory()).inventoryoverhaul$getHotbar();
     }
 
+    public Vec2 size(boolean includeSelectionOutline) {
+        int outlineTotal = 2 + (includeSelectionOutline ? 2 : 0); // both sides
+
+        int slotsX = hotbar.getSizeX();
+        int sizeSlotsX = slotsX * 20;
+        int sizeX = sizeSlotsX + outlineTotal;
+
+        int slotsY = hotbar.getSizeY();
+        int sizeSlotsY = slotsY * 20;
+        int sizeY = sizeSlotsY + outlineTotal;
+
+        return new Vec2(sizeX, sizeY);
+    }
+
+    public Vec2 size() {
+        return size(false);
+    }
+
+
+    /**
+     * NOTE: the hotbar selection outline will go one pixel outside the current pose translation
+     */
     @Override
     public void render(GuiGraphics guiGraphics, int x, int y, float partialTick) {
         guiGraphics.pose().pushPose();
