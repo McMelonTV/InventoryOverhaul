@@ -7,8 +7,8 @@ import net.minecraft.world.flag.FeatureFlagSet;
 import net.minecraft.world.level.GameRules;
 
 public class InventorySizeGameRules {
-    public static final GameRules.Key<GameRules.IntegerValue> INVENTORY_SIZE_X = GameRules.register("inventorySizeX", GameRules.Category.PLAYER, InvokerIntegerValue.invokeCreate(8, 1, 12, FeatureFlagSet.of(), InventorySizeGameRules::resizeInventoryX));
-    public static final GameRules.Key<GameRules.IntegerValue> INVENTORY_SIZE_Y = GameRules.register("inventorySizeY", GameRules.Category.PLAYER, InvokerIntegerValue.invokeCreate(4, 1, 12, FeatureFlagSet.of(), InventorySizeGameRules::resizeInventoryY));
+    public static final GameRules.Key<GameRules.IntegerValue> INVENTORY_SIZE_X = GameRules.register("inventorySizeX", GameRules.Category.PLAYER, InvokerIntegerValue.invokeCreate(9, 1, 12, FeatureFlagSet.of(), InventorySizeGameRules::resizeInventoryX));
+    public static final GameRules.Key<GameRules.IntegerValue> INVENTORY_SIZE_Y = GameRules.register("inventorySizeY", GameRules.Category.PLAYER, InvokerIntegerValue.invokeCreate(3, 1, 12, FeatureFlagSet.of(), InventorySizeGameRules::resizeInventoryY));
 
     public static void init() {
     }

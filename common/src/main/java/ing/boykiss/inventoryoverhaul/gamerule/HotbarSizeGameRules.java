@@ -7,8 +7,8 @@ import net.minecraft.world.flag.FeatureFlagSet;
 import net.minecraft.world.level.GameRules;
 
 public class HotbarSizeGameRules {
-    public static final GameRules.Key<GameRules.IntegerValue> HOTBAR_SIZE_X = GameRules.register("hotbarSizeX", GameRules.Category.PLAYER, InvokerIntegerValue.invokeCreate(4, 1, 6, FeatureFlagSet.of(), HotbarSizeGameRules::resizeHotbarX));
-    public static final GameRules.Key<GameRules.IntegerValue> HOTBAR_SIZE_Y = GameRules.register("hotbarSizeY", GameRules.Category.PLAYER, InvokerIntegerValue.invokeCreate(4, 1, 6, FeatureFlagSet.of(), HotbarSizeGameRules::resizeHotbarY));
+    public static final GameRules.Key<GameRules.IntegerValue> HOTBAR_SIZE_X = GameRules.register("hotbarSizeX", GameRules.Category.PLAYER, InvokerIntegerValue.invokeCreate(3, 1, 6, FeatureFlagSet.of(), HotbarSizeGameRules::resizeHotbarX));
+    public static final GameRules.Key<GameRules.IntegerValue> HOTBAR_SIZE_Y = GameRules.register("hotbarSizeY", GameRules.Category.PLAYER, InvokerIntegerValue.invokeCreate(3, 1, 6, FeatureFlagSet.of(), HotbarSizeGameRules::resizeHotbarY));
 
     public static void init() {
     }
