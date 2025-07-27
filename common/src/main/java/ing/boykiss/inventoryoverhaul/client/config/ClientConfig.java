@@ -5,16 +5,33 @@ import ing.boykiss.inventoryoverhaul.util.annotations.RequireFieldAnnotation;
 import lombok.Getter;
 import lombok.Setter;
 
-// TODO: hotbar position
-
 @Getter
 @Setter
 @RequireFieldAnnotation(ConfigOption.class)
 public class ClientConfig extends AbstractClientConfig {
-    @ConfigOption(size = ConfigOption.ButtonSize.BIG, gridY = 0)
+    @ConfigOption
     public HotbarScrollDirection hotbarScrollDirection = HotbarScrollDirection.ROW;
-    @ConfigOption(size = ConfigOption.ButtonSize.BIG, gridY = 1)
+
+    @ConfigOption
     public HotbarScrollMode hotbarScrollMode = HotbarScrollMode.CONTINUOUS;
+
+    @ConfigOption(size = ConfigOption.WidgetSize.BIG)
+    public PositionAnchorX hotbarAnchorX = PositionAnchorX.RIGHT;
+
+    @ConfigOption(size = ConfigOption.WidgetSize.TINY)
+    public int hotbarOffsetX = 0;
+
+    @ConfigOption(size = ConfigOption.WidgetSize.TINY)
+    public int hotbarPaddingX = 10;
+
+    @ConfigOption(size = ConfigOption.WidgetSize.BIG)
+    public PositionAnchorY hotbarAnchorY = PositionAnchorY.BOTTOM;
+
+    @ConfigOption(size = ConfigOption.WidgetSize.TINY)
+    public int hotbarOffsetY = 0;
+
+    @ConfigOption(size = ConfigOption.WidgetSize.TINY)
+    public int hotbarPaddingY = 10;
 
     public enum HotbarScrollDirection {
         ROW,
@@ -24,5 +41,21 @@ public class ClientConfig extends AbstractClientConfig {
     public enum HotbarScrollMode {
         CONTINUOUS,
         SPLIT
+    }
+
+    public enum PositionAnchorX {
+        LEFT,
+        LEFT_CENTER,
+        CENTER,
+        RIGHT_CENTER,
+        RIGHT
+    }
+
+    public enum PositionAnchorY {
+        TOP,
+        TOP_CENTER,
+        CENTER,
+        BOTTOM_CENTER,
+        BOTTOM
     }
 }
