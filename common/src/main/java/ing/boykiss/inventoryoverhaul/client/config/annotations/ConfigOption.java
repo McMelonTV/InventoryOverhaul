@@ -10,22 +10,20 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
 public @interface ConfigOption {
-    ButtonSize size() default ButtonSize.MEDIUM;
+    WidgetSize size() default WidgetSize.DEFAULT;
 
-    int gridX() default -1;
-
-    int gridY() default -1;
-
-    enum ButtonSize {
-        SMALL(100),
-        MEDIUM(150),
+    enum WidgetSize {
+        TINY(50),
+        SMALL(75),
+        MEDIUM(100),
+        DEFAULT(150),
         BIG(200),
         FULL(300);
 
         @Getter
         private final int size;
 
-        ButtonSize(int size) {
+        WidgetSize(int size) {
             this.size = size;
         }
     }
