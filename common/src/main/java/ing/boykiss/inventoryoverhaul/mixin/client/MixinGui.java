@@ -68,14 +68,12 @@ public abstract class MixinGui {
         guiGraphics.pose().popPose();
 
         // start vanilla
-        int c = 1;
-
         if (!itemStack.isEmpty()) {
             int d = guiGraphics.guiHeight() - 16 - 3;
             if (humanoidArm == HumanoidArm.LEFT) {
-                this.renderSlot(guiGraphics, a - 91 - 26, d, deltaTracker, player, itemStack, c++);
+                this.renderSlot(guiGraphics, a - 91 - 26, d, deltaTracker, player, itemStack, 1);
             } else {
-                this.renderSlot(guiGraphics, a + 91 + 10, d, deltaTracker, player, itemStack, c++);
+                this.renderSlot(guiGraphics, a + 91 + 10, d, deltaTracker, player, itemStack, 1);
             }
         }
 
