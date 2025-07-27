@@ -1,13 +1,18 @@
 package ing.boykiss.inventoryoverhaul.client.config;
 
+import ing.boykiss.inventoryoverhaul.client.config.annotations.ConfigOption;
+import ing.boykiss.inventoryoverhaul.util.annotations.RequireFieldAnnotation;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
+@RequireFieldAnnotation(ConfigOption.class)
 public class ClientConfig extends AbstractClientConfig {
-    private HotbarScrollDirection hotbarScrollDirection = HotbarScrollDirection.ROW;
-    private HotbarScrollMode hotbarScrollMode = HotbarScrollMode.CONTINUOUS;
+    @ConfigOption(size = ConfigOption.ButtonSize.BIG, gridY = 0)
+    public HotbarScrollDirection hotbarScrollDirection = HotbarScrollDirection.ROW;
+    @ConfigOption(size = ConfigOption.ButtonSize.BIG, gridY = 1)
+    public HotbarScrollMode hotbarScrollMode = HotbarScrollMode.CONTINUOUS;
 
     public enum HotbarScrollDirection {
         ROW,
