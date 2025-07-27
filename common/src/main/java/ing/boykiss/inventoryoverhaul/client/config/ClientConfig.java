@@ -9,13 +9,13 @@ import lombok.Setter;
 @Setter
 @RequireFieldAnnotation(ConfigOption.class)
 public class ClientConfig extends AbstractClientConfig {
-    @ConfigOption
+    @ConfigOption(size = ConfigOption.WidgetSize.BIG)
     public HotbarScrollDirection hotbarScrollDirection = HotbarScrollDirection.ROW;
 
-    @ConfigOption
+    @ConfigOption(size = ConfigOption.WidgetSize.BIG)
     public HotbarScrollMode hotbarScrollMode = HotbarScrollMode.CONTINUOUS;
 
-    @ConfigOption(size = ConfigOption.WidgetSize.BIG)
+    @ConfigOption(size = ConfigOption.WidgetSize.BIG, slider = true)
     public HotbarAnchorX hotbarAnchorX = HotbarAnchorX.RIGHT;
 
     @ConfigOption(size = ConfigOption.WidgetSize.TINY)
@@ -24,7 +24,7 @@ public class ClientConfig extends AbstractClientConfig {
     @ConfigOption(size = ConfigOption.WidgetSize.TINY)
     public int hotbarPaddingX = 10;
 
-    @ConfigOption(size = ConfigOption.WidgetSize.BIG)
+    @ConfigOption(size = ConfigOption.WidgetSize.BIG, slider = true)
     public HotbarAnchorY hotbarAnchorY = HotbarAnchorY.BOTTOM;
 
     @ConfigOption(size = ConfigOption.WidgetSize.TINY)
