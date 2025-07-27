@@ -97,6 +97,6 @@ public abstract class MixinGui {
     }
 
     @Inject(method = "renderSelectedItemName", at = @At("HEAD"))
-    public void e(GuiGraphics guiGraphics, CallbackInfo ci) {
+    public void renderSelectedItemName(GuiGraphics guiGraphics, CallbackInfo ci) {
     }
 }
