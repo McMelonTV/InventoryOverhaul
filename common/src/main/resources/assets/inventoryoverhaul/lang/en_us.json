@@ -11,5 +11,21 @@
   "options.hotbarScrollDirection.COLUMN": "Column",
   "options.hotbarScrollMode": "Hotbar Scroll Mode: %s",
   "options.hotbarScrollMode.CONTINUOUS": "Continuous",
-  "options.hotbarScrollMode.SPLIT": "Split"
+  "options.hotbarScrollMode.SPLIT": "Split",
+  "options.hotbarAnchorX": "Hotbar Horizontal Anchor: %s",
+  "options.hotbarAnchorX.LEFT": "Left",
+  "options.hotbarAnchorX.LEFT_CENTER": "Left Center",
+  "options.hotbarAnchorX.CENTER": "Center",
+  "options.hotbarAnchorX.RIGHT_CENTER": "Right Center",
+  "options.hotbarAnchorX.RIGHT": "Right",
+  "options.hotbarOffsetX": "Hotbar Horizontal Offset",
+  "options.hotbarPaddingX": "Hotbar Horizontal Padding",
+  "options.hotbarAnchorY": "Hotbar Vertical Anchor: %s",
+  "options.hotbarAnchorY.TOP": "Top",
+  "options.hotbarAnchorY.TOP_CENTER": "Top Center",
+  "options.hotbarAnchorY.CENTER": "Center",
+  "options.hotbarAnchorY.BOTTOM_CENTER": "Bottom Center",
+  "options.hotbarAnchorY.BOTTOM": "Bottom",
+  "options.hotbarOffsetY": "Hotbar Vertical Offset",
+  "options.hotbarPaddingY": "Hotbar Vertical Padding"
 }
