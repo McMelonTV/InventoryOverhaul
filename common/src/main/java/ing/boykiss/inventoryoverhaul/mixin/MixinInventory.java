@@ -1,12 +1,14 @@
 package ing.boykiss.inventoryoverhaul.mixin;
 
 import dev.architectury.networking.NetworkManager;
+import dev.architectury.utils.EnvExecutor;
 import ing.boykiss.inventoryoverhaul.InventoryOverhaul;
 import ing.boykiss.inventoryoverhaul.gamerule.HotbarSizeGameRules;
 import ing.boykiss.inventoryoverhaul.gamerule.InventorySizeGameRules;
 import ing.boykiss.inventoryoverhaul.imixin.IMixinInventory;
 import ing.boykiss.inventoryoverhaul.inventory.Hotbar;
 import ing.boykiss.inventoryoverhaul.network.S2CInventorySizeUpdatePacket;
+import net.minecraft.client.Minecraft;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.EntityEquipment;
@@ -25,7 +27,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import java.io.IOException;
 
 @Mixin(Inventory.class)
-public class MixinInventory implements IMixinInventory {
+public abstract class MixinInventory implements IMixinInventory {
     @Shadow
     @Final
     public Player player;
@@ -38,24 +40,32 @@ public class MixinInventory implements IMixinInventory {
 
     @Inject(method = "isHotbarSlot", at = @At("HEAD"), cancellable = true)
     private static void isHotbarSlot(int i, CallbackInfoReturnable<Boolean> cir) {
-        cir.setReturnValue(i >= 0 && i < 16);
-//        try {
-//            throw new RuntimeException();
-//        } catch (RuntimeException e) {
-//            InventoryOverhaul.LOGGER.error("isHotbarSlot called: ");
-//            e.printStackTrace();
-//        }
+        cir.setReturnValue(i >= 0 && i < Inventory.getSelectionSize());
     }
 
     @Inject(method = "getSelectionSize", at = @At("HEAD"), cancellable = true)
     private static void getSelectionSize(CallbackInfoReturnable<Integer> cir) {
-        cir.setReturnValue(16);
-//        try {
-//            throw new RuntimeException();
-//        } catch (RuntimeException e) {
-//            InventoryOverhaul.LOGGER.error("getSelectionSize called: ");
-//            e.printStackTrace();
-//        }
+        int hotbarSize = EnvExecutor.getEnvSpecific(() -> () -> {
+            Player player = Minecraft.getInstance().player;
+
+            // hacky failsafe before player data is fully loaded, should always be higher than the highest possible hotbar total size
+            if (player == null) return 999;
+
+            return ((IMixinInventory) player.getInventory()).inventoryoverhaul$getHotbar().getTotalSize();
+        }, () -> () -> {
+            // TODO: we might not want to use the overworld here
+            try (ServerLevel serverLevel = InventoryOverhaul.server.overworld()) {
+                GameRules gameRules = serverLevel.getGameRules();
+                int hotbarSizeX = gameRules.getInt(HotbarSizeGameRules.HOTBAR_SIZE_X);
+                int hotbarSizeY = gameRules.getInt(HotbarSizeGameRules.HOTBAR_SIZE_Y);
+
+                return hotbarSizeX * hotbarSizeY;
+            } catch (IOException e) {
+                InventoryOverhaul.LOGGER.error(e.getMessage());
+                return 0;
+            }
+        });
+        cir.setReturnValue(hotbarSize);
     }
 
     @Inject(method = "<init>", at = @At("TAIL"))
