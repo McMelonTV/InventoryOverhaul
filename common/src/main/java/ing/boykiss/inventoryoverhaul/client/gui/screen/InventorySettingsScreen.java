@@ -1,14 +1,20 @@
 package ing.boykiss.inventoryoverhaul.client.gui.screen;
 
+import ing.boykiss.inventoryoverhaul.client.config.ClientConfig;
+import ing.boykiss.inventoryoverhaul.client.gui.widget.ConfigButton;
 import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.layouts.GridLayout;
 import net.minecraft.client.gui.layouts.HeaderAndFooterLayout;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 
+import java.util.List;
+
 public class InventorySettingsScreen extends Screen {
     private static final Component TITLE = Component.translatable("options.inventory_settings.title");
     public final HeaderAndFooterLayout layout = new HeaderAndFooterLayout(this);
+    public final GridLayout buttonGrid = layout.addToContents(new GridLayout());
     protected final Screen lastScreen;
 
     public InventorySettingsScreen(Screen lastScreen) {
@@ -30,9 +36,14 @@ public class InventorySettingsScreen extends Screen {
     }
 
     protected void addContents() {
-        this.layout.addToContents(Button.builder(Component.literal("test"), (button) -> {
-
-        }).build());
+        List<Button> buttons = ConfigButton.createAll(ClientConfig.getInstance());
+        buttonGrid.spacing(8);
+        for (int i = 0; i < buttons.size(); i++) {
+            Button button = buttons.get(i);
+            int gridX = i / 2;
+            int gridY = i % 2;
+            buttonGrid.addChild(button, i, 0);
+        }
     }
 
     protected void addFooter() {
