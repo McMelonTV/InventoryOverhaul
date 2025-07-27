@@ -12,6 +12,8 @@ import java.lang.annotation.Target;
 public @interface ConfigOption {
     WidgetSize size() default WidgetSize.DEFAULT;
 
+    boolean slider() default false;
+
     enum WidgetSize {
         TINY(50),
         SMALL(75),
