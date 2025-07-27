@@ -6,12 +6,12 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ClientConfig extends AbstractClientConfig {
-    private HotbarScrollDirection hotbarScrollDirection = HotbarScrollDirection.HORIZONTAL;
+    private HotbarScrollDirection hotbarScrollDirection = HotbarScrollDirection.ROW;
     private HotbarScrollMode hotbarScrollMode = HotbarScrollMode.CONTINUOUS;
 
     public enum HotbarScrollDirection {
-        HORIZONTAL,
-        VERTICAL
+        ROW,
+        COLUMN
     }
 
     public enum HotbarScrollMode {
