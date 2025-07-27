@@ -16,7 +16,9 @@ public abstract class AbstractClientConfig {
 
     private static ClientConfig load() {
         try (FileReader fileReader = new FileReader(configFile)) {
-            return new Gson().fromJson(fileReader, ClientConfig.class);
+            ClientConfig config = new Gson().fromJson(fileReader, ClientConfig.class);
+            if (config == null) config = new ClientConfig();
+            return config;
         } catch (IOException e) {
             InventoryOverhaul.LOGGER.error(e.getMessage());
             throw new RuntimeException("Could not load ClientConfig");
@@ -45,6 +47,8 @@ public abstract class AbstractClientConfig {
 
         configFile = file;
         instance = load();
+
+        instance.save();
     }
 
     public static ClientConfig getInstance() {
