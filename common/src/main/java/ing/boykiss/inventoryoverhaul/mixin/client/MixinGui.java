@@ -1,8 +1,6 @@
 package ing.boykiss.inventoryoverhaul.mixin.client;
 
-import ing.boykiss.inventoryoverhaul.InventoryOverhaul;
-import ing.boykiss.inventoryoverhaul.imixin.IMixinInventory;
-import ing.boykiss.inventoryoverhaul.inventory.Hotbar;
+import ing.boykiss.inventoryoverhaul.client.gui.widget.HotbarViewWidget;
 import net.minecraft.client.AttackIndicatorStatus;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
@@ -17,17 +15,12 @@ import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(Gui.class)
 public abstract class MixinGui {
-    @Unique
-    private static final ResourceLocation HOTBAR_SLOT_SPRITE = ResourceLocation.fromNamespaceAndPath(InventoryOverhaul.MOD_ID, "hotbar_slot");
-    @Unique
-    private static final ResourceLocation HOTBAR_SELECTION_SPRITE = ResourceLocation.fromNamespaceAndPath(InventoryOverhaul.MOD_ID, "hotbar_selection");
     @Shadow
     @Final
     private static ResourceLocation HOTBAR_OFFHAND_LEFT_SPRITE;
@@ -69,77 +62,14 @@ public abstract class MixinGui {
         }
         // end vanilla
 
-        IMixinInventory iMixinInventory = (IMixinInventory) player.getInventory();
-        Hotbar hotbar = iMixinInventory.inventoryoverhaul$getHotbar();
-
-        int b = 0;
-        int c = 1;
-
         guiGraphics.pose().pushPose();
         guiGraphics.pose().translate(0.0F, 0.0F, -90.0F);
-
-        // draw slots
-        for (int y = 0; y < hotbar.getSizeY(); y++) {
-            for (int x = 0; x < hotbar.getSizeX(); x++) {
-                int posX = 10 + x * 20;
-                int posY = 10 + y * 20;
-
-                guiGraphics.blitSprite(RenderType::guiTextured, HOTBAR_SLOT_SPRITE, posX, posY, 20, 20);
-
-                renderSlot(guiGraphics, posX + 2, posY + 2, deltaTracker, player, player.getInventory().getItem(b++), c++);
-            }
-        }
-
-        // draw a black outline around the hotbar
-        int hotbarX = hotbar.getSizeX();
-        int hotbarY = hotbar.getSizeY();
-
-        // top and bottom
-        guiGraphics.fill(9, 9, 10 + hotbarX * 20, 10, 0xFF000000);
-        guiGraphics.fill(9, 9 + hotbarY * 20, 10 + hotbarX * 20, 10 + hotbarY * 20, 0xFF000000);
-        // left and right
-        guiGraphics.fill(9, 9, 10, 10 + hotbarY * 20, 0xFF000000);
-        guiGraphics.fill(9 + hotbarX * 20, 9, 10 + hotbarX * 20, 10 + hotbarY * 20, 0xFF000000);
-
-        // draw the selected slot
-        int selectedSlot = player.getInventory().getSelectedSlot();
-        int selectedX = selectedSlot % hotbar.getSizeX();
-        int selectedY = selectedSlot / hotbar.getSizeX();
-
-        int selectedPosX = 10 + selectedX * 20 - 1;
-        int selectedPosY = 10 + selectedY * 20 - 1;
-
-        guiGraphics.blitSprite(
-                RenderType::guiTextured, HOTBAR_SELECTION_SPRITE, selectedPosX, selectedPosY, 22, 22
-        );
-
-        // draw outline around selected slot
-        boolean firstX = selectedX == 0;
-        boolean lastX = selectedX == hotbar.getSizeX() - 1;
-        boolean firstY = selectedY == 0;
-        boolean lastY = selectedY == hotbar.getSizeY() - 1;
-
-        if (firstX) {
-            // left
-            guiGraphics.fill(selectedPosX - 1, selectedPosY - 1, selectedPosX, selectedPosY + (lastY ? 22 : 23), 0xFF000000);
-        }
-        if (lastX) {
-            // right
-            guiGraphics.fill(selectedPosX - 1 + 22, selectedPosY - 1, selectedPosX + 22, selectedPosY + (lastY ? 22 : 23), 0xFF000000);
-        }
-
-        if (firstY) {
-            // top
-            guiGraphics.fill(selectedPosX - 1, selectedPosY - 1, selectedPosX + (lastX ? 22 : 23), selectedPosY, 0xFF000000);
-        }
-        if (lastY) {
-            // bottom
-            guiGraphics.fill(selectedPosX - 1, selectedPosY - 1 + 22, selectedPosX + (lastX ? 22 : 23), selectedPosY + 22, 0xFF000000);
-        }
-
+        new HotbarViewWidget(player).render(guiGraphics, 10, 10, deltaTracker.getGameTimeDeltaPartialTick(false));
         guiGraphics.pose().popPose();
 
         // start vanilla
+        int c = 1;
+
         if (!itemStack.isEmpty()) {
             int d = guiGraphics.guiHeight() - 16 - 3;
             if (humanoidArm == HumanoidArm.LEFT) {
@@ -166,5 +96,9 @@ public abstract class MixinGui {
         // end vanilla
 
         ci.cancel();
+    }
+
+    @Inject(method = "renderSelectedItemName", at = @At("HEAD"))
+    public void e(GuiGraphics guiGraphics, CallbackInfo ci) {
     }
 }
