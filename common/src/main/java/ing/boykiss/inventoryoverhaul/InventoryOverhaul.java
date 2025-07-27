@@ -2,6 +2,7 @@ package ing.boykiss.inventoryoverhaul;
 
 import dev.architectury.utils.Env;
 import dev.architectury.utils.EnvExecutor;
+import ing.boykiss.inventoryoverhaul.client.config.AbstractClientConfig;
 import ing.boykiss.inventoryoverhaul.client.keybind.ModifierKeybind;
 import ing.boykiss.inventoryoverhaul.event.PlayerJoinEvent;
 import ing.boykiss.inventoryoverhaul.gamerule.HotbarSizeGameRules;
@@ -38,6 +39,7 @@ public final class InventoryOverhaul {
     public static class Client {
         @Environment(EnvType.CLIENT)
         public static void initClient() {
+            AbstractClientConfig.init();
             ModifierKeybind.init();
             ModNetwork.initClient();
         }
