@@ -20,12 +20,8 @@ public abstract class MixinControlsScreen extends OptionsSubScreen {
         super(screen, options, component);
     }
 
-    @Inject(method = "addOptions", at = @At("HEAD"))
-    protected void addOptions(CallbackInfo ci) {
-        if (this.list != null) {
-            this.list.addSmall(List.of(Button.builder(Component.translatable("options.inventory_settings"), button -> {
-                if (this.minecraft != null) this.minecraft.setScreen(new InventorySettingsScreen(this));
-            }).build()));
-        }
+    @Inject(method = "addOptions", at = @At(value = "TAIL"))
+    private void addOptions(CallbackInfo ci) {
+        this.list.addSmall(List.of(Button.builder(Component.translatable("options.inventory_settings"), button -> minecraft.setScreen(new InventorySettingsScreen(this))).build()));
     }
 }
