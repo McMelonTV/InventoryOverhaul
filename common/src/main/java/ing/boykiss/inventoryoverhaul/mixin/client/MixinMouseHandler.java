@@ -27,27 +27,30 @@ public class MixinMouseHandler {
 
         Hotbar hotbar = ((IMixinInventory) inventory).inventoryoverhaul$getHotbar();
 
+        boolean byRow = hotbarScrollDirection == ClientConfig.HotbarScrollDirection.ROW;
         if (hotbarScrollMode == ClientConfig.HotbarScrollMode.CONTINUOUS) {
-            if (hotbarScrollDirection == ClientConfig.HotbarScrollDirection.ROW) {
-                int next = ScrollWheelHandler.getNextScrollWheelSelection(k, inventory.getSelectedSlot(), Inventory.getSelectionSize());
-                inventory.setSelectedSlot(next);
-            } else if (hotbarScrollDirection == ClientConfig.HotbarScrollDirection.COLUMN) {
-                int next = ScrollWheelHandler.getNextScrollWheelSelection(k, hotbar.getSlotIndexColumn(inventory.getSelectedSlot()), Inventory.getSelectionSize());
-                int slotIndex = hotbar.getSlotIndexColumn(next);
-                inventory.setSelectedSlot(slotIndex);
-            }
+            int base = byRow
+                    ? inventory.getSelectedSlot()
+                    : hotbar.getSlotIndexColumn(inventory.getSelectedSlot());
+            int selectionSize = Inventory.getSelectionSize();
+            int next = ScrollWheelHandler.getNextScrollWheelSelection(k, base, selectionSize);
+            int slotIndex = byRow
+                    ? next
+                    : hotbar.getSlotIndexColumn(next);
+            inventory.setSelectedSlot(slotIndex);
         } else if (hotbarScrollMode == ClientConfig.HotbarScrollMode.SPLIT) {
-            boolean byRow = hotbarScrollDirection == ClientConfig.HotbarScrollDirection.ROW;
             Tuple<Integer, Integer> currentXY = hotbar.getSlotXY(inventory.getSelectedSlot());
-            if ((byRow && modifierKeyHeld) || (!byRow && !modifierKeyHeld)) {
-                // column
-                int nextY = ScrollWheelHandler.getNextScrollWheelSelection(k, currentXY.getB(), hotbar.getSizeY());
-                inventory.setSelectedSlot(hotbar.getSlotIndex(currentXY.getA(), nextY));
+            boolean scrollByColumn = (byRow && modifierKeyHeld) || (!byRow && !modifierKeyHeld);
+            int nextX = currentXY.getA();
+            int nextY = currentXY.getB();
+
+            if (scrollByColumn) {
+                nextY = ScrollWheelHandler.getNextScrollWheelSelection(k, currentXY.getB(), hotbar.getSizeY());
             } else {
-                // row
-                int nextX = ScrollWheelHandler.getNextScrollWheelSelection(k, currentXY.getA(), hotbar.getSizeX());
-                inventory.setSelectedSlot(hotbar.getSlotIndex(nextX, currentXY.getB()));
+                nextX = ScrollWheelHandler.getNextScrollWheelSelection(k, currentXY.getA(), hotbar.getSizeX());
             }
+
+            inventory.setSelectedSlot(hotbar.getSlotIndex(nextX, nextY));
         }
     }
 
