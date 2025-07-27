@@ -20,6 +20,7 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.io.IOException;
 
@@ -34,6 +35,28 @@ public class MixinInventory implements IMixinInventory {
     private int inventoryoverhaul$sizeX;
     @Unique
     private int inventoryoverhaul$sizeY;
+
+    @Inject(method = "isHotbarSlot", at = @At("HEAD"), cancellable = true)
+    private static void isHotbarSlot(int i, CallbackInfoReturnable<Boolean> cir) {
+        cir.setReturnValue(i >= 0 && i < 16);
+//        try {
+//            throw new RuntimeException();
+//        } catch (RuntimeException e) {
+//            InventoryOverhaul.LOGGER.error("isHotbarSlot called: ");
+//            e.printStackTrace();
+//        }
+    }
+
+    @Inject(method = "getSelectionSize", at = @At("HEAD"), cancellable = true)
+    private static void getSelectionSize(CallbackInfoReturnable<Integer> cir) {
+        cir.setReturnValue(16);
+//        try {
+//            throw new RuntimeException();
+//        } catch (RuntimeException e) {
+//            InventoryOverhaul.LOGGER.error("getSelectionSize called: ");
+//            e.printStackTrace();
+//        }
+    }
 
     @Inject(method = "<init>", at = @At("TAIL"))
     public void init(Player player, EntityEquipment entityEquipment, CallbackInfo ci) {
