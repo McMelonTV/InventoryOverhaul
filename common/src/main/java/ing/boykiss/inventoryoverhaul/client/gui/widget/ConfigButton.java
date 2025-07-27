@@ -4,7 +4,6 @@ import ing.boykiss.inventoryoverhaul.client.config.ClientConfig;
 import ing.boykiss.inventoryoverhaul.client.config.annotations.ConfigOption;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.network.chat.Component;
-import org.apache.commons.lang3.NotImplementedException;
 import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.Field;
@@ -34,11 +33,11 @@ public class ConfigButton<T> extends Button {
 
             ConfigOption configOption = field.getAnnotation(ConfigOption.class);
 
-            if (!type.isEnum()) throw new NotImplementedException("non enum options are not implemented yet");
+            if (!type.isEnum()) return null;
 
             //enum
             return Button.builder(getButtonText(field.getName(), field.get(clientConfig).toString()), (b) -> {
-                Object currentOption = null;
+                Object currentOption;
                 try {
                     currentOption = field.get(clientConfig);
                 } catch (IllegalAccessException e) {
