@@ -37,6 +37,8 @@ public abstract class MixinInventory implements IMixinInventory {
     private int inventoryoverhaul$sizeX;
     @Unique
     private int inventoryoverhaul$sizeY;
+    @Shadow
+    private int selected;
 
     @Inject(method = "isHotbarSlot", at = @At("HEAD"), cancellable = true)
     private static void isHotbarSlot(int i, CallbackInfoReturnable<Boolean> cir) {
@@ -68,9 +70,27 @@ public abstract class MixinInventory implements IMixinInventory {
         cir.setReturnValue(hotbarSize);
     }
 
+    @Shadow
+    public static int getSelectionSize() {
+        return 0;
+    }
+
+    @Shadow
+    public abstract void setSelectedSlot(int i);
+
+    @Inject(method = "setSelectedSlot", at = @At("HEAD"), cancellable = true)
+    public void setSelectedSlot(int i, CallbackInfo ci) {
+        if (!Inventory.isHotbarSlot(i)) {
+            setSelectedSlot(getSelectionSize() - 1);
+        } else {
+            this.selected = i;
+        }
+        ci.cancel();
+    }
+
     @Inject(method = "<init>", at = @At("TAIL"))
     public void init(Player player, EntityEquipment entityEquipment, CallbackInfo ci) {
-        this.inventoryoverhaul$hotbar = new Hotbar(player); // TODO: load actual hotbar data
+        this.inventoryoverhaul$hotbar = new Hotbar(player);
 
         if (player instanceof ServerPlayer serverPlayer) {
             try (ServerLevel serverLevel = serverPlayer.serverLevel()) {
