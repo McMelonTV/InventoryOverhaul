@@ -3,12 +3,14 @@ package ing.boykiss.inventoryoverhaul;
 import dev.architectury.utils.Env;
 import dev.architectury.utils.EnvExecutor;
 import ing.boykiss.inventoryoverhaul.client.config.AbstractClientConfig;
+import ing.boykiss.inventoryoverhaul.client.config.ClientConfig;
 import ing.boykiss.inventoryoverhaul.client.keybind.ModifierKeybind;
 import ing.boykiss.inventoryoverhaul.event.PlayerJoinEvent;
 import ing.boykiss.inventoryoverhaul.event.ServerStartingEvent;
 import ing.boykiss.inventoryoverhaul.gamerule.HotbarSizeGameRules;
 import ing.boykiss.inventoryoverhaul.gamerule.InventorySizeGameRules;
 import ing.boykiss.inventoryoverhaul.network.ModNetwork;
+import ing.boykiss.inventoryoverhaul.util.annotations.AnnotationProcessor;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.server.MinecraftServer;
@@ -44,6 +46,7 @@ public final class InventoryOverhaul {
     public static class Client {
         @Environment(EnvType.CLIENT)
         public static void initClient() {
+            AnnotationProcessor.validateRequireFieldAnnotations(ClientConfig.class);
             AbstractClientConfig.init();
             ModifierKeybind.init();
             ModNetwork.initClient();
