@@ -1,7 +1,7 @@
 package ing.boykiss.inventoryoverhaul.client.gui.screen;
 
 import ing.boykiss.inventoryoverhaul.client.config.ClientConfig;
-import ing.boykiss.inventoryoverhaul.client.gui.widget.ConfigButton;
+import ing.boykiss.inventoryoverhaul.client.gui.widget.ConfigWidget;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.layouts.GridLayout;
 import net.minecraft.client.gui.layouts.HeaderAndFooterLayout;
@@ -36,13 +36,23 @@ public class InventorySettingsScreen extends Screen {
     }
 
     protected void addContents() {
-        List<Button> buttons = ConfigButton.createAll(ClientConfig.getInstance());
+        List<? extends ConfigWidget<?>> widgets = ConfigWidget.createAll(ClientConfig.getInstance());
         buttonGrid.spacing(8);
-        for (int i = 0; i < buttons.size(); i++) {
-            Button button = buttons.get(i);
-            int gridX = i / 2;
-            int gridY = i % 2;
-            buttonGrid.addChild(button, i, 0);
+        int currentRow = 0;
+        int currentRowSize = 0;
+        int currentRowIndex = 0;
+        for (ConfigWidget<?> widget : widgets) {
+            int widgetSize = widget.getSize().getSize();
+
+            if (currentRowSize != 0 && (currentRowSize + widgetSize) > 300) {
+                currentRow++;
+                currentRowSize = 0;
+                currentRowIndex = 0;
+            }
+
+            buttonGrid.addChild(widget.getWidget(), currentRow, currentRowIndex);
+            currentRowSize += widgetSize;
+            currentRowIndex++;
         }
     }
 

@@ -2,6 +2,8 @@ package ing.boykiss.inventoryoverhaul.client.gui.widget;
 
 import ing.boykiss.inventoryoverhaul.client.config.ClientConfig;
 import ing.boykiss.inventoryoverhaul.client.config.annotations.ConfigOption;
+import lombok.Getter;
+import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.Nullable;
@@ -11,32 +13,42 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
-public class ConfigButton<T> extends Button {
+public class ConfigWidget<T extends AbstractWidget> {
     private static final String OPTION_NAME_TRANSLATE_KEY_FORMAT = "options.%s";
     private static final String OPTION_VALUE_TRANSLATE_KEY_FORMAT = "options.%s.%s";
 
-    protected ConfigButton(int i, int j, int k, int l, Component component, OnPress onPress, CreateNarration createNarration) {
-        super(i, j, k, l, component, onPress, createNarration);
+    @Getter
+    private final ConfigOption.WidgetSize size;
+
+    @Getter
+    private final T widget;
+
+    protected ConfigWidget(ConfigOption.WidgetSize widgetSize, T widget) {
+        this.size = widgetSize;
+        this.widget = widget;
     }
 
-    public static List<Button> createAll(ClientConfig clientConfig) {
+    public static List<? extends ConfigWidget<?>> createAll(ClientConfig clientConfig) {
         Class<?> clientConfigClass = clientConfig.getClass();
         return Arrays.stream(clientConfigClass.getDeclaredFields())
-                .map(field -> ConfigButton.create(field, clientConfig))
+                .map(field -> ConfigWidget.create(field, clientConfig))
                 .filter(Objects::nonNull)
                 .toList();
     }
 
-    private static @Nullable Button create(Field field, ClientConfig clientConfig) {
+    private static @Nullable ConfigWidget<?> create(Field field, ClientConfig clientConfig) {
         try {
             Class<?> type = field.getType();
 
             ConfigOption configOption = field.getAnnotation(ConfigOption.class);
 
-            if (!type.isEnum()) return null;
+            if (!type.isEnum())
+                return new ConfigWidget<>(configOption.size(), Button.builder(Component.literal(""), (b) -> {
+
+                }).width(configOption.size().getSize()).build());
 
             //enum
-            return Button.builder(getButtonText(field.getName(), field.get(clientConfig).toString()), (b) -> {
+            return new ConfigWidget<>(configOption.size(), Button.builder(getButtonText(field.getName(), field.get(clientConfig).toString()), (b) -> {
                 Object currentOption;
                 try {
                     currentOption = field.get(clientConfig);
@@ -56,7 +68,7 @@ public class ConfigButton<T> extends Button {
                 clientConfig.save();
 
                 b.setMessage(getButtonText(field.getName(), next.toString()));
-            }).width(configOption.size().getSize()).build();
+            }).width(configOption.size().getSize()).build());
         } catch (IllegalAccessException e) {
             return null;
         }
