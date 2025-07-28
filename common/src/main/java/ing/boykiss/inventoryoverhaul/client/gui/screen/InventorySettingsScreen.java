@@ -8,7 +8,9 @@ import net.minecraft.client.gui.layouts.HeaderAndFooterLayout;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
+import net.minecraft.util.Tuple;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class InventorySettingsScreen extends Screen {
@@ -36,24 +38,56 @@ public class InventorySettingsScreen extends Screen {
     }
 
     protected void addContents() {
+        buttonGrid.rowSpacing(8);
+
         List<? extends ConfigWidget<?>> widgets = ConfigWidget.createAll(ClientConfig.getInstance());
-        buttonGrid.spacing(8);
-        int currentRow = 0;
-        int currentRowSize = 0;
+        List<Tuple<GridLayout, Integer>> rows = arrangeWidgetsInRows(widgets);
+
+        int maxRowElementCount = rows.stream()
+                .mapToInt(Tuple::getB)
+                .max()
+                .orElse(0);
+
+        int maxSpacing = (maxRowElementCount - 1) * 8;
+
+        // we want to make sure the overall grid is aligned and all elements have at least 8px of spacing
+        for (int i = 0; i < rows.size(); i++) {
+            GridLayout row = rows.get(i).getA();
+            int rowElementCount = rows.get(i).getB();
+            int rowSpacing = maxSpacing / (rowElementCount - 1);
+            row.columnSpacing(rowSpacing);
+            buttonGrid.addChild(row, i, 0);
+        }
+    }
+
+    private List<Tuple<GridLayout, Integer>> arrangeWidgetsInRows(List<? extends ConfigWidget<?>> widgets) {
+        List<Tuple<GridLayout, Integer>> rows = new ArrayList<>();
+
+        GridLayout currentRow = new GridLayout();
         int currentRowIndex = 0;
+        int currentRowWidth = 0;
+        int currentRowElementIndex = 0;
         for (ConfigWidget<?> widget : widgets) {
             int widgetSize = widget.getSize().getSize();
 
-            if (currentRowSize != 0 && (currentRowSize + widgetSize) > 300) {
-                currentRow++;
-                currentRowSize = 0;
-                currentRowIndex = 0;
+            if (currentRowWidth != 0 && (currentRowWidth + widgetSize) > 300) {
+                rows.add(new Tuple<>(currentRow, currentRowElementIndex));
+                currentRow = new GridLayout();
+                currentRowIndex++;
+                currentRowWidth = 0;
+                currentRowElementIndex = 0;
             }
 
-            buttonGrid.addChild(widget.getWidget(), currentRow, currentRowIndex);
-            currentRowSize += widgetSize;
-            currentRowIndex++;
+            currentRow.addChild(widget.getWidget(), currentRowIndex, currentRowElementIndex);
+            currentRowWidth += widgetSize;
+            currentRowElementIndex++;
         }
+
+        if (currentRowIndex != 0) {
+            rows.add(new Tuple<>(currentRow, currentRowElementIndex));
+        }
+
+        return rows;
     }
 
     protected void addFooter() {
