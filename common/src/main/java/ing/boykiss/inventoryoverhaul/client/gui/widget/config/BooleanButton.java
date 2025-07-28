@@ -3,6 +3,7 @@ package ing.boykiss.inventoryoverhaul.client.gui.widget.config;
 import ing.boykiss.inventoryoverhaul.client.config.annotations.ConfigOption;
 import net.minecraft.client.gui.components.Button;
 
+// TODO: Untested
 public class BooleanButton implements ConfigButton {
     private final ConfigOption.WidgetSize size;
     private final Button widget;

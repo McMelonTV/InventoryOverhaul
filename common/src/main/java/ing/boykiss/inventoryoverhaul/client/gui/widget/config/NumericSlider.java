@@ -4,6 +4,7 @@ import ing.boykiss.inventoryoverhaul.client.config.annotations.ConfigOption;
 import ing.boykiss.inventoryoverhaul.client.gui.widget.Slider;
 import net.minecraft.client.gui.components.AbstractSliderButton;
 
+// TODO: Untested
 public class NumericSlider implements ConfigSlider {
     private final ConfigOption.WidgetSize size;
     private final AbstractSliderButton widget;

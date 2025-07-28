@@ -4,6 +4,7 @@ import ing.boykiss.inventoryoverhaul.client.config.annotations.ConfigOption;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.Checkbox;
 
+// TODO: Untested
 public class BooleanCheckbox implements ConfigCheckbox {
     private final ConfigOption.WidgetSize size;
     private final Checkbox widget;

@@ -4,6 +4,7 @@ import ing.boykiss.inventoryoverhaul.client.config.annotations.ConfigOption;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.EditBox;
 
+// TODO: Untested
 public class StringInput implements ConfigInput {
     private final ConfigOption.WidgetSize size;
     private final EditBox widget;
@@ -11,6 +12,7 @@ public class StringInput implements ConfigInput {
     public StringInput(WidgetData widgetData) throws IllegalAccessException {
         size = widgetData.configOption().size();
         widget = new EditBox(Minecraft.getInstance().font, widgetData.configOption().size().getSize(), WIDGET_HEIGHT, ConfigWidget.getWidgetText(widgetData.field().getName()));
+        widget.setValue(widgetData.field().get(widgetData.clientConfig()).toString());
         // TODO
     }
 
