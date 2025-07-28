@@ -15,6 +15,7 @@ import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -36,6 +37,8 @@ public abstract class MixinGui {
     @Shadow
     @Final
     private Minecraft minecraft;
+    @Unique
+    private HotbarViewWidget inventoryoverhaul$hotbarViewWidget;
 
     @Shadow
     @Nullable
@@ -48,6 +51,9 @@ public abstract class MixinGui {
     private void renderItemHotbar(GuiGraphics guiGraphics, DeltaTracker deltaTracker, CallbackInfo ci) {
         Player player = getCameraPlayer();
         if (player == null) return;
+
+        if (inventoryoverhaul$hotbarViewWidget == null)
+            inventoryoverhaul$hotbarViewWidget = new HotbarViewWidget(player);
 
         // start vanilla
         ItemStack itemStack = player.getOffhandItem();
@@ -62,10 +68,7 @@ public abstract class MixinGui {
         }
         // end vanilla
 
-        guiGraphics.pose().pushPose();
-        guiGraphics.pose().translate(0.0F, 0.0F, -90.0F);
-        new HotbarViewWidget(player).render(guiGraphics, 10, 10, deltaTracker.getGameTimeDeltaPartialTick(false));
-        guiGraphics.pose().popPose();
+        inventoryoverhaul$hotbarViewWidget.render(guiGraphics, deltaTracker.getGameTimeDeltaPartialTick(false));
 
         // start vanilla
         if (!itemStack.isEmpty()) {
