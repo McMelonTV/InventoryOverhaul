@@ -12,9 +12,31 @@ import java.lang.annotation.Target;
 public @interface ConfigOption {
     WidgetSize size() default WidgetSize.DEFAULT;
 
+    /**
+     * only applicable to enums, and numerics with defined min and max
+     */
     boolean slider() default false;
 
+    /**
+     * only applicable to numerics
+     */
+    double sliderStep() default -1;
+
+    /**
+     * only applicable to numerics
+     */
+    double min() default -1;
+
+    /**
+     * only applicable to numerics
+     */
+    double max() default -1;
+
     enum WidgetSize {
+        /**
+         * this should only be used for checkboxes
+         */
+        SQUARE(20),
         TINY(50),
         SMALL(75),
         MEDIUM(100),
