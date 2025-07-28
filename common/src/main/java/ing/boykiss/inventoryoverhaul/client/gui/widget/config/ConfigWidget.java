@@ -37,7 +37,7 @@ public interface ConfigWidget<T extends AbstractWidget> {
         try {
             if (type.isEnum()) {
                 return slider
-                        ? new EnumSlider(widgetData)
+                        ? new EnumSlider<>(widgetData)
                         : new EnumButton(widgetData);
             }
 
@@ -47,7 +47,7 @@ public interface ConfigWidget<T extends AbstractWidget> {
 
                     type == float.class || type == Float.class ||
                     type == double.class || type == Double.class) {
-                return (slider && !Double.isNaN(min) && !Double.isNaN(max))
+                return (slider && !Double.isNaN(min) && !Double.isNaN(max) && !Double.isNaN(sliderStep))
                         ? new NumericSlider(widgetData, min, max, sliderStep)
                         : new NumericInput(widgetData, min, max);
             }
@@ -68,6 +68,10 @@ public interface ConfigWidget<T extends AbstractWidget> {
         }
 
         return new ErrorWidget(configOption);
+    }
+
+    static Component getWidgetTextRawValue(String optionName, String optionValue) {
+        return Component.translatable(getOptionNameTranslateKey(optionName), optionValue);
     }
 
     static Component getWidgetText(String optionName, String optionValue) {
