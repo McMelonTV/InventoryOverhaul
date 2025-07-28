@@ -15,7 +15,7 @@ public class Slider extends AbstractSliderButton {
     private final double step;
 
     public Slider(int width, int height, Function<Double, Component> componentProvider, Consumer<Double> valueConsumer, double value, double min, double max, double step) {
-        super(0, 0, width, height, componentProvider.apply(norm(value, min, max)), norm(value, min, max));
+        super(0, 0, width, height, componentProvider.apply(value), norm(value, min, max));
         this.componentProvider = componentProvider;
         this.valueConsumer = valueConsumer;
         this.min = min;
@@ -64,7 +64,7 @@ public class Slider extends AbstractSliderButton {
 
     @Override
     protected void updateMessage() {
-        this.setMessage(componentProvider.apply(value));
+        this.setMessage(componentProvider.apply(real(value)));
     }
 
     @Override
@@ -73,6 +73,6 @@ public class Slider extends AbstractSliderButton {
         double realValueSnapped = snap(realValue);
         value = norm(realValueSnapped);
 
-        this.valueConsumer.accept(value);
+        this.valueConsumer.accept(real(value));
     }
 }

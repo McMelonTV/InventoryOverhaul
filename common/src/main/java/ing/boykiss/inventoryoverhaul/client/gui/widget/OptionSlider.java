@@ -12,6 +12,6 @@ public class OptionSlider<T> extends Slider {
     }
 
     private static <T> T objectValue(double value, List<T> options) {
-        return options.get((int) real(value, 0, options.isEmpty() ? 0 : options.size() - 1));
+        return options.get((int) value);
     }
 }
