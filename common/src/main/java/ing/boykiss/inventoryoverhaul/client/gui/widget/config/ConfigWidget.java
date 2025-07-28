@@ -37,7 +37,7 @@ public interface ConfigWidget<T extends AbstractWidget> {
         try {
             if (type.isEnum()) {
                 return slider
-                        ? new EnumSlider(widgetData, sliderStep)
+                        ? new EnumSlider(widgetData)
                         : new EnumButton(widgetData);
             }
 
