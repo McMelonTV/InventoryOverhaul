@@ -1,6 +1,6 @@
 package ing.boykiss.inventoryoverhaul.client.gui.widget.config;
 
-import net.minecraft.client.gui.components.AbstractSliderButton;
+import ing.boykiss.inventoryoverhaul.client.gui.widget.Slider;
 
-public interface ConfigSlider extends ConfigWidget<AbstractSliderButton> {
+public interface ConfigSlider extends ConfigWidget<Slider> {
 }
