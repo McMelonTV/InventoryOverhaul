@@ -20,17 +20,17 @@ public @interface ConfigOption {
     /**
      * only applicable to numerics
      */
-    double sliderStep() default -1;
+    double sliderStep() default Double.NaN;
 
     /**
      * only applicable to numerics
      */
-    double min() default -1;
+    double min() default Double.NaN;
 
     /**
      * only applicable to numerics
      */
-    double max() default -1;
+    double max() default Double.NaN;
 
     enum WidgetSize {
         /**
