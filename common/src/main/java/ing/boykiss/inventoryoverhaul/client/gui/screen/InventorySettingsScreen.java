@@ -54,7 +54,7 @@ public class InventorySettingsScreen extends Screen {
         for (int i = 0; i < rows.size(); i++) {
             GridLayout row = rows.get(i).getA();
             int rowElementCount = rows.get(i).getB();
-            int rowSpacing = maxSpacing / (rowElementCount - 1);
+            int rowSpacing = maxSpacing / (rowElementCount <= 1 ? 1 : (rowElementCount - 1)); // FIXME: no spacing when only one element
             row.columnSpacing(rowSpacing);
             buttonGrid.addChild(row, i, 0);
         }
