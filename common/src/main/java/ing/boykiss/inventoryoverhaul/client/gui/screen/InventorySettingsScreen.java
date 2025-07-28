@@ -1,7 +1,7 @@
 package ing.boykiss.inventoryoverhaul.client.gui.screen;
 
 import ing.boykiss.inventoryoverhaul.client.config.ClientConfig;
-import ing.boykiss.inventoryoverhaul.client.gui.widget.ConfigWidget;
+import ing.boykiss.inventoryoverhaul.client.gui.widget.config.ConfigWidget;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.layouts.GridLayout;
 import net.minecraft.client.gui.layouts.HeaderAndFooterLayout;

@@ -13,6 +13,11 @@ public @interface ConfigOption {
     WidgetSize size() default WidgetSize.DEFAULT;
 
     /**
+     * only applicable to booleans; if false, the widget will be a button
+     */
+    boolean checkbox() default false;
+
+    /**
      * only applicable to enums, and numerics with defined min and max
      */
     boolean slider() default false;
