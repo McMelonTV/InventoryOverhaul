@@ -31,6 +31,8 @@ public class HotbarViewWidget implements Renderable {
     }
 
     public Vec2 size(boolean includeSelectionOutline) {
+        double scale = clientConfig.getHotbarScale();
+
         int outlineTotal = 2 + (includeSelectionOutline ? 2 : 0); // both sides
 
         int slotsX = hotbar.getSizeX();
@@ -41,7 +43,7 @@ public class HotbarViewWidget implements Renderable {
         int sizeSlotsY = slotsY * 20;
         int sizeY = sizeSlotsY + outlineTotal;
 
-        return new Vec2(sizeX, sizeY);
+        return new Vec2(sizeX, sizeY).scale((float) scale);
     }
 
     public Vec2 size() {
@@ -71,6 +73,7 @@ public class HotbarViewWidget implements Renderable {
 
         Vec2 hotbarPosition = calculatePosition(guiGraphics, clientConfig);
         guiGraphics.pose().translate(hotbarPosition.x, hotbarPosition.y, -90.0F);
+        guiGraphics.pose().scale((float) clientConfig.getHotbarScale(), (float) clientConfig.getHotbarScale(), (float) clientConfig.getHotbarScale());
 
         render(guiGraphics, 0, 0, partialTick);
 

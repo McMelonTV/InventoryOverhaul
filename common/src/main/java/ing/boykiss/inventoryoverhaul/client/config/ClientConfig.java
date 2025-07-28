@@ -33,6 +33,9 @@ public class ClientConfig extends AbstractClientConfig {
     @ConfigOption(size = ConfigOption.WidgetSize.TINY)
     public int hotbarPaddingY = 10;
 
+    @ConfigOption(size = ConfigOption.WidgetSize.FULL, slider = true, min = 0.5d, max = 2.0d, sliderStep = 0.05d)
+    public double hotbarScale = 1.0d;
+
     public enum HotbarScrollDirection {
         ROW,
         COLUMN

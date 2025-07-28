@@ -27,5 +27,6 @@
   "options.hotbarAnchorY.BOTTOM_CENTER": "Bottom Center",
   "options.hotbarAnchorY.BOTTOM": "Bottom",
   "options.hotbarOffsetY": "Hotbar Vertical Offset",
-  "options.hotbarPaddingY": "Hotbar Vertical Padding"
+  "options.hotbarPaddingY": "Hotbar Vertical Padding",
+  "options.hotbarScale": "Hotbar Scale: %s"
 }
