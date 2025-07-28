@@ -2,19 +2,20 @@ package ing.boykiss.inventoryoverhaul.client.gui.widget.config;
 
 import ing.boykiss.inventoryoverhaul.client.config.annotations.ConfigOption;
 import ing.boykiss.inventoryoverhaul.client.gui.widget.OptionSlider;
-import net.minecraft.client.gui.components.AbstractSliderButton;
 
 import java.util.Arrays;
 
-public class EnumSlider implements ConfigSlider {
+public class EnumSlider<T extends Enum<?>> implements ConfigSlider {
     private final ConfigOption.WidgetSize size;
-    private final AbstractSliderButton widget;
+    private final OptionSlider<T> widget;
 
     public EnumSlider(WidgetData widgetData) throws IllegalAccessException {
         size = widgetData.configOption().size();
 
-        Object currentOption = widgetData.field().get(widgetData.clientConfig());
-        Object[] enumConstants = widgetData.type().getEnumConstants();
+        @SuppressWarnings("unchecked")
+        T currentOption = (T) widgetData.field().get(widgetData.clientConfig());
+        @SuppressWarnings("unchecked")
+        T[] enumConstants = (T[]) widgetData.type().getEnumConstants();
 
         widget = new OptionSlider<>(widgetData.configOption().size().getSize(), ConfigWidget.WIDGET_HEIGHT, (v) -> ConfigWidget.getWidgetText(widgetData.field().getName(), v.toString()), (v) -> {
             try {
@@ -33,7 +34,7 @@ public class EnumSlider implements ConfigSlider {
     }
 
     @Override
-    public AbstractSliderButton getWidget() {
+    public OptionSlider<T> getWidget() {
         return widget;
     }
 }
