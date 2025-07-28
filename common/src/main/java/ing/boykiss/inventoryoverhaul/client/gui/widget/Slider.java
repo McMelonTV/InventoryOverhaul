@@ -15,7 +15,7 @@ public class Slider extends AbstractSliderButton {
     private final double step;
 
     public Slider(int width, int height, Function<Double, Component> componentProvider, Consumer<Double> valueConsumer, double value, double min, double max, double step) {
-        super(0, 0, width, height, componentProvider.apply(value), value);
+        super(0, 0, width, height, componentProvider.apply(norm(value, min, max)), norm(value, min, max));
         this.componentProvider = componentProvider;
         this.valueConsumer = valueConsumer;
         this.min = min;
@@ -26,25 +26,39 @@ public class Slider extends AbstractSliderButton {
     /**
      * [min,max] -> [0,1]
      */
-    private double norm(double value) {
+    protected static double norm(double value, double min, double max) {
         return (value - min) / (max - min);
     }
 
     /**
      * [0,1] -> [min,max]
      */
-    private double real(double value) {
+    protected static double real(double value, double min, double max) {
+        return min + value * (max - min);
+    }
+
+    /**
+     * [min,max] -> [0,1]
+     */
+    protected double norm(double value) {
+        return (value - min) / (max - min);
+    }
+
+    /**
+     * [0,1] -> [min,max]
+     */
+    protected double real(double value) {
         return min + value * (max - min);
     }
 
     /**
      * real number in, real number out
      */
-    private double snap(double value) {
+    protected double snap(double value) {
         return clamp(min + Math.round((value - min) / step) * step);
     }
 
-    private double clamp(double value) {
+    protected double clamp(double value) {
         return Math.max(min, Math.min(max, value));
     }
 
