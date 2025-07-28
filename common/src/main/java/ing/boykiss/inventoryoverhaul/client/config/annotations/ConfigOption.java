@@ -18,7 +18,7 @@ public @interface ConfigOption {
     boolean checkbox() default false;
 
     /**
-     * only applicable to enums, and numerics with defined min and max
+     * only applicable to enums, and numerics with defined min, max and sliderStep
      */
     boolean slider() default false;
 
