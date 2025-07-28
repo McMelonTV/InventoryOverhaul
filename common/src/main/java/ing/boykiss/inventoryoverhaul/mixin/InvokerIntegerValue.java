@@ -12,7 +12,7 @@ import java.util.function.BiConsumer;
 public interface InvokerIntegerValue {
     @Invoker("create")
     static GameRules.Type<GameRules.IntegerValue> invokeCreate(
-            int i, int j, int k, FeatureFlagSet featureFlagSet, BiConsumer<MinecraftServer, GameRules.IntegerValue> biConsumer
+            int i, int j, int k, BiConsumer<MinecraftServer, GameRules.IntegerValue> biConsumer
     ) {
         throw new AssertionError();
     }
