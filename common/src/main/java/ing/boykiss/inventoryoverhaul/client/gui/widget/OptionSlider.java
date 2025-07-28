@@ -4,7 +4,7 @@ import net.minecraft.network.chat.Component;
 
 // TODO
 public class OptionSlider extends Slider {
-    public OptionSlider(int i, int j, int k, int l, Component component, double d) {
-        super(i, j, k, l, component, d);
+    public OptionSlider(int width, int height, Component component, double d) {
+        super(width, height, component, d);
     }
 }

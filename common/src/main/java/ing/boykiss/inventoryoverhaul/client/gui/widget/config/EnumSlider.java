@@ -14,7 +14,7 @@ public class EnumSlider implements ConfigSlider {
 //        widget = Button.builder(ConfigWidget.getWidgetText(widgetData.field().getName(), widgetData.field().get(widgetData.clientConfig()).toString()), (b) -> {
 //
 //        }).width(widgetData.configOption().size().getSize()).build();
-        widget = new OptionSlider(0, 0, 0, 0, Component.empty(), 0);
+        widget = new OptionSlider(widgetData.configOption().size().getSize(), ConfigWidget.WIDGET_HEIGHT, Component.empty(), 0);
         // TODO
     }
 

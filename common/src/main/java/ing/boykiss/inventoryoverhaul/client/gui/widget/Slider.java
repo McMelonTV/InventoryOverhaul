@@ -5,8 +5,8 @@ import net.minecraft.network.chat.Component;
 
 // TODO
 public class Slider extends AbstractSliderButton {
-    public Slider(int i, int j, int k, int l, Component component, double d) {
-        super(i, j, k, l, component, d);
+    public Slider(int width, int height, Component component, double d) {
+        super(0, 0, width, height, component, d);
     }
 
     @Override
