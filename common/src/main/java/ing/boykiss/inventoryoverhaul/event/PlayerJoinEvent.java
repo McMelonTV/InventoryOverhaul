@@ -23,6 +23,14 @@ public class PlayerJoinEvent {
             GameRules.IntegerValue hotbarSizeX = gameRules.getRule(HotbarSizeGameRules.HOTBAR_SIZE_X);
             GameRules.IntegerValue hotbarSizeY = gameRules.getRule(HotbarSizeGameRules.HOTBAR_SIZE_Y);
 
+            if (hotbarSizeX.get() * hotbarSizeY.get() > 36) {
+                InventoryOverhaul.LOGGER.error("PLAYERJOIN Hotbar total size is set to more than inventory size, resetting to defaults");
+                hotbarSizeY.set(1, server);
+
+                hotbarSizeX.set(9, server);
+                hotbarSizeY.set(1, server);
+            }
+
             Inventory inventory = serverPlayer.getInventory();
             IMixinInventory iMixinInventory = (IMixinInventory) inventory;
             iMixinInventory.inventoryoverhaul$trySync();
