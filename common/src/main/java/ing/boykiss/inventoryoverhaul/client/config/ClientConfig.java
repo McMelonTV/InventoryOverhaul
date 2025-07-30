@@ -16,13 +16,13 @@ public class ClientConfig extends AbstractClientConfig {
     public HotbarScrollMode hotbarScrollMode = HotbarScrollMode.CONTINUOUS;
 
     @ConfigOption(size = ConfigOption.WidgetSize.BIG, slider = true)
-    public HotbarAnchorX hotbarAnchorX = HotbarAnchorX.RIGHT;
+    public HotbarAnchorX hotbarAnchorX = HotbarAnchorX.CENTER;
 
     @ConfigOption(size = ConfigOption.WidgetSize.TINY)
     public int hotbarOffsetX = 0;
 
     @ConfigOption(size = ConfigOption.WidgetSize.TINY)
-    public int hotbarPaddingX = 10;
+    public int hotbarPaddingX = 0;
 
     @ConfigOption(size = ConfigOption.WidgetSize.BIG, slider = true)
     public HotbarAnchorY hotbarAnchorY = HotbarAnchorY.BOTTOM;
@@ -31,7 +31,7 @@ public class ClientConfig extends AbstractClientConfig {
     public int hotbarOffsetY = 0;
 
     @ConfigOption(size = ConfigOption.WidgetSize.TINY)
-    public int hotbarPaddingY = 10;
+    public int hotbarPaddingY = 0;
 
     @ConfigOption(size = ConfigOption.WidgetSize.FULL, slider = true, min = 0.5d, max = 2.0d, sliderStep = 0.05d)
     public double hotbarScale = 1.0d;
