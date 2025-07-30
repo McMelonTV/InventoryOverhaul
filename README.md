@@ -45,6 +45,13 @@ https://github.com/user-attachments/assets/f60c17a2-a35b-450a-85a8-b9eb9b5d94fc
 4. Set up the gamerules and client configuration to your liking
 5. Have fun!
 
+If you are trying to use a Minecraft version that is not yet supported by the mod:
+
+- If the Minecraft version is older than the current latest supported: Open an issue, and I'll consider backporting the
+  mod to that version.
+- If the Minecraft version is newer than the current latest supported: I will try to update the mod to the latest
+  Minecraft version as soon as possible
+
 ### Planned Features
 
 - Completely decouple the hotbar from the rest of the inventory
