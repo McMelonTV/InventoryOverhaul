@@ -1,7 +1,6 @@
 package ing.boykiss.inventoryoverhaul.mixin;
 
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.world.flag.FeatureFlagSet;
 import net.minecraft.world.level.GameRules;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Invoker;
@@ -12,7 +11,7 @@ import java.util.function.BiConsumer;
 public interface InvokerIntegerValue {
     @Invoker("create")
     static GameRules.Type<GameRules.IntegerValue> invokeCreate(
-            int i, int j, int k, FeatureFlagSet featureFlagSet, BiConsumer<MinecraftServer, GameRules.IntegerValue> biConsumer
+            int i, int j, int k, BiConsumer<MinecraftServer, GameRules.IntegerValue> biConsumer
     ) {
         throw new AssertionError();
     }

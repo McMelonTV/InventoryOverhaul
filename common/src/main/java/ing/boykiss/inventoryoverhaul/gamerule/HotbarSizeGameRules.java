@@ -4,7 +4,6 @@ import ing.boykiss.inventoryoverhaul.InventoryOverhaul;
 import ing.boykiss.inventoryoverhaul.imixin.IMixinInventory;
 import ing.boykiss.inventoryoverhaul.mixin.InvokerIntegerValue;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.world.flag.FeatureFlagSet;
 import net.minecraft.world.level.GameRules;
 
 public class HotbarSizeGameRules {
@@ -51,10 +50,10 @@ public class HotbarSizeGameRules {
         );
     }
 
-    public static final GameRules.Key<GameRules.IntegerValue> HOTBAR_SIZE_X = GameRules.register("hotbarSizeX", GameRules.Category.PLAYER, InvokerIntegerValue.invokeCreate(9, 1, 9, FeatureFlagSet.of(), HotbarSizeGameRules::resizeHotbarX));
+    public static final GameRules.Key<GameRules.IntegerValue> HOTBAR_SIZE_X = GameRules.register("hotbarSizeX", GameRules.Category.PLAYER, InvokerIntegerValue.invokeCreate(9, 1, 9, HotbarSizeGameRules::resizeHotbarX));
 
 
-    public static final GameRules.Key<GameRules.IntegerValue> HOTBAR_SIZE_Y = GameRules.register("hotbarSizeY", GameRules.Category.PLAYER, InvokerIntegerValue.invokeCreate(1, 1, 9, FeatureFlagSet.of(), HotbarSizeGameRules::resizeHotbarY));
+    public static final GameRules.Key<GameRules.IntegerValue> HOTBAR_SIZE_Y = GameRules.register("hotbarSizeY", GameRules.Category.PLAYER, InvokerIntegerValue.invokeCreate(1, 1, 9, HotbarSizeGameRules::resizeHotbarY));
 
 
 }

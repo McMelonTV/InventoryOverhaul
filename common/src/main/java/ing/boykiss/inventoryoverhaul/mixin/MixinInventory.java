@@ -9,7 +9,6 @@ import ing.boykiss.inventoryoverhaul.inventory.Hotbar;
 import ing.boykiss.inventoryoverhaul.network.S2CInventorySizeUpdatePacket;
 import net.minecraft.client.Minecraft;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.EntityEquipment;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.GameRules;
@@ -29,12 +28,12 @@ public abstract class MixinInventory implements IMixinInventory {
     public Player player;
     @Unique
     public Hotbar inventoryoverhaul$hotbar;
+    @Shadow
+    public int selected;
     @Unique
     private int inventoryoverhaul$sizeX;
     @Unique
     private int inventoryoverhaul$sizeY;
-    @Shadow
-    private int selected;
 
     @Inject(method = "isHotbarSlot", at = @At("HEAD"), cancellable = true)
     private static void isHotbarSlot(int i, CallbackInfoReturnable<Boolean> cir) {
@@ -66,20 +65,20 @@ public abstract class MixinInventory implements IMixinInventory {
     }
 
     @Shadow
-    public abstract void setSelectedSlot(int i);
+    public abstract void swapPaint(double d);
 
-    @Inject(method = "setSelectedSlot", at = @At("HEAD"), cancellable = true)
-    public void setSelectedSlot(int i, CallbackInfo ci) {
-        if (!Inventory.isHotbarSlot(i)) {
-            setSelectedSlot(getSelectionSize() - 1);
+    @Inject(method = "swapPaint", at = @At("HEAD"), cancellable = true)
+    public void swapPaint(double d, CallbackInfo ci) {
+        if (!Inventory.isHotbarSlot((int) d)) {
+            swapPaint(getSelectionSize() - 1);
         } else {
-            this.selected = i;
+            this.selected = (int) d;
         }
         ci.cancel();
     }
 
     @Inject(method = "<init>", at = @At("TAIL"))
-    public void init(Player player, EntityEquipment entityEquipment, CallbackInfo ci) {
+    public void init(Player player, CallbackInfo ci) {
         this.inventoryoverhaul$hotbar = new Hotbar(player);
 
         if (!(player instanceof ServerPlayer serverPlayer)) return;
