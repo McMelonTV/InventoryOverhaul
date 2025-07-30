@@ -1,5 +1,6 @@
 package ing.boykiss.inventoryoverhaul.client.gui.widget;
 
+import com.mojang.blaze3d.platform.Window;
 import ing.boykiss.inventoryoverhaul.InventoryOverhaul;
 import ing.boykiss.inventoryoverhaul.client.config.ClientConfig;
 import ing.boykiss.inventoryoverhaul.imixin.IMixinInventory;
@@ -71,7 +72,7 @@ public class HotbarViewWidget implements Renderable {
     public void render(GuiGraphics guiGraphics, float partialTick) {
         guiGraphics.pose().pushPose();
 
-        Vec2 hotbarPosition = calculatePosition(guiGraphics, clientConfig);
+        Vec2 hotbarPosition = calculatePosition(clientConfig);
         guiGraphics.pose().translate(hotbarPosition.x, hotbarPosition.y, -90.0F);
         guiGraphics.pose().scale((float) clientConfig.getHotbarScale(), (float) clientConfig.getHotbarScale(), (float) clientConfig.getHotbarScale());
 
@@ -195,19 +196,22 @@ public class HotbarViewWidget implements Renderable {
         }
     }
 
-    public Vec2 calculatePosition(GuiGraphics guiGraphics, ClientConfig clientConfig) {
+    public Vec2 calculatePosition(ClientConfig clientConfig) {
         Vec2 hotbarSize = size();
 
+        Window window = Minecraft.getInstance().getWindow();
+        double guiScale = window.getGuiScale();
+
         ClientConfig.HotbarAnchorX hotbarAnchorX = clientConfig.getHotbarAnchorX();
-        int hotbarOffsetX = clientConfig.getHotbarOffsetX();
-        int hotbarPaddingX = clientConfig.getHotbarPaddingX();
+        int hotbarOffsetX = (int) (clientConfig.getHotbarOffsetX() * guiScale);
+        int hotbarPaddingX = (int) (clientConfig.getHotbarPaddingX() * guiScale);
 
         ClientConfig.HotbarAnchorY hotbarAnchorY = clientConfig.getHotbarAnchorY();
-        int hotbarOffsetY = clientConfig.getHotbarOffsetY();
-        int hotbarPaddingY = clientConfig.getHotbarPaddingY();
+        int hotbarOffsetY = (int) (clientConfig.getHotbarOffsetY() * guiScale);
+        int hotbarPaddingY = (int) (clientConfig.getHotbarPaddingY() * guiScale);
 
-        int guiWidth = guiGraphics.guiWidth();
-        int guiHeight = guiGraphics.guiHeight();
+        int guiWidth = window.getGuiScaledWidth();
+        int guiHeight = window.getGuiScaledHeight();
 
         int safeWidth = guiWidth - (hotbarPaddingX * 2);
         int safeHeight = guiHeight - (hotbarPaddingY * 2);
