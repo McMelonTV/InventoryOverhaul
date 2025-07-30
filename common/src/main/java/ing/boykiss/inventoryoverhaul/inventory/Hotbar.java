@@ -66,8 +66,6 @@ public class Hotbar {
     public int getSlotIndexColumn(int i) {
         int x = i % sizeX;
         int y = i / sizeX;
-        int out = x * sizeY + y;
-        InventoryOverhaul.LOGGER.info("in: {}, x: {}, y: {}, out: {}", i, x, y, out);
-        return out;
+        return x * sizeY + y;
     }
 }
