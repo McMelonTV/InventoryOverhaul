@@ -2,10 +2,24 @@ package ing.boykiss.inventoryoverhaul.event;
 
 import dev.architectury.event.events.common.LifecycleEvent;
 import ing.boykiss.inventoryoverhaul.InventoryOverhaul;
+import ing.boykiss.inventoryoverhaul.gamerule.HotbarSizeGameRules;
+import net.minecraft.world.level.GameRules;
 
 public class ServerStartingEvent {
     public static void init() {
         LifecycleEvent.SERVER_STARTING.register(server -> {
+            GameRules gameRules = server.getGameRules();
+
+            GameRules.IntegerValue hotbarSizeX = gameRules.getRule(HotbarSizeGameRules.HOTBAR_SIZE_X);
+            GameRules.IntegerValue hotbarSizeY = gameRules.getRule(HotbarSizeGameRules.HOTBAR_SIZE_Y);
+
+            if (hotbarSizeX.get() * hotbarSizeY.get() > 36) {
+                InventoryOverhaul.LOGGER.error("Hotbar total size is set to more than inventory size, resetting to defaults");
+
+                hotbarSizeX.set(9, server);
+                hotbarSizeY.set(1, server);
+            }
+
             InventoryOverhaul.server = server;
         });
     }

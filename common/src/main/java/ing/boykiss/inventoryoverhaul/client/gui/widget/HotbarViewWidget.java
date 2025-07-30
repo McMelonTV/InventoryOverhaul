@@ -1,12 +1,12 @@
 package ing.boykiss.inventoryoverhaul.client.gui.widget;
 
+import com.mojang.blaze3d.platform.Window;
 import ing.boykiss.inventoryoverhaul.InventoryOverhaul;
 import ing.boykiss.inventoryoverhaul.client.config.ClientConfig;
 import ing.boykiss.inventoryoverhaul.imixin.IMixinInventory;
 import ing.boykiss.inventoryoverhaul.inventory.Hotbar;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.components.Renderable;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
@@ -16,21 +16,17 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
 
-public class HotbarViewWidget implements Renderable {
+public class HotbarViewWidget {
     private static final ResourceLocation HOTBAR_SLOT_SPRITE = ResourceLocation.fromNamespaceAndPath(InventoryOverhaul.MOD_ID, "hotbar_slot");
     private static final ResourceLocation HOTBAR_SELECTION_SPRITE = ResourceLocation.fromNamespaceAndPath(InventoryOverhaul.MOD_ID, "hotbar_selection");
 
-    private final Player player;
-    private final Hotbar hotbar;
     private final ClientConfig clientConfig;
 
-    public HotbarViewWidget(@NotNull Player player) {
-        this.player = player;
-        this.hotbar = ((IMixinInventory) player.getInventory()).inventoryoverhaul$getHotbar();
+    public HotbarViewWidget() {
         this.clientConfig = ClientConfig.getInstance();
     }
 
-    public Vec2 size(boolean includeSelectionOutline) {
+    public Vec2 size(Hotbar hotbar, boolean includeSelectionOutline) {
         double scale = clientConfig.getHotbarScale();
 
         int outlineTotal = 2 + (includeSelectionOutline ? 2 : 0); // both sides
@@ -46,41 +42,31 @@ public class HotbarViewWidget implements Renderable {
         return new Vec2(sizeX, sizeY).scale((float) scale);
     }
 
-    public Vec2 size() {
-        return size(false);
+    public Vec2 size(Hotbar hotbar) {
+        return size(hotbar, false);
     }
 
 
-    /**
-     * NOTE: the hotbar selection outline will go one pixel outside the current pose translation
-     */
-    @Override
-    public void render(GuiGraphics guiGraphics, int x, int y, float partialTick) {
-        guiGraphics.pose().pushPose();
-        guiGraphics.pose().translate(x, y, 0);
+    public void render(GuiGraphics guiGraphics, float partialTick, Player player) {
+        Hotbar hotbar = getHotbar(player);
 
-        renderSlots(guiGraphics, partialTick);
-        renderOutline(guiGraphics);
-        renderSlotSelection(guiGraphics);
-        renderSlotSelectionOutline(guiGraphics);
-
-        guiGraphics.pose().popPose();
-    }
-
-
-    public void render(GuiGraphics guiGraphics, float partialTick) {
         guiGraphics.pose().pushPose();
 
-        Vec2 hotbarPosition = calculatePosition(guiGraphics, clientConfig);
+        Vec2 hotbarPosition = calculatePosition(clientConfig, hotbar);
         guiGraphics.pose().translate(hotbarPosition.x, hotbarPosition.y, -90.0F);
         guiGraphics.pose().scale((float) clientConfig.getHotbarScale(), (float) clientConfig.getHotbarScale(), (float) clientConfig.getHotbarScale());
 
-        render(guiGraphics, 0, 0, partialTick);
+        renderSlots(guiGraphics, partialTick, player);
+        renderOutline(guiGraphics, player);
+        renderSlotSelection(guiGraphics, player);
+        renderSlotSelectionOutline(guiGraphics, player);
 
         guiGraphics.pose().popPose();
     }
 
-    private void renderSlots(GuiGraphics guiGraphics, float partialTick) {
+    private void renderSlots(GuiGraphics guiGraphics, float partialTick, Player player) {
+        Hotbar hotbar = getHotbar(player);
+
         guiGraphics.pose().pushPose();
         guiGraphics.pose().translate(1, 1, 0);
 
@@ -96,7 +82,7 @@ public class HotbarViewWidget implements Renderable {
 
                 guiGraphics.blitSprite(HOTBAR_SLOT_SPRITE, 0, 0, 20, 20);
 
-                renderItemSlot(guiGraphics, 2, 2, partialTick, player.getInventory().getItem(itemIndex), itemIndex + 1);
+                renderItemSlot(guiGraphics, 2, 2, partialTick, player, player.getInventory().getItem(itemIndex), itemIndex + 1);
 
                 guiGraphics.pose().popPose();
             }
@@ -105,7 +91,9 @@ public class HotbarViewWidget implements Renderable {
         guiGraphics.pose().popPose();
     }
 
-    private void renderOutline(GuiGraphics guiGraphics) {
+    private void renderOutline(GuiGraphics guiGraphics, Player player) {
+        Hotbar hotbar = getHotbar(player);
+
         guiGraphics.pose().pushPose();
         guiGraphics.pose().translate(0, 0, 0);
 
@@ -121,7 +109,9 @@ public class HotbarViewWidget implements Renderable {
         guiGraphics.pose().popPose();
     }
 
-    private void renderSlotSelection(GuiGraphics guiGraphics) {
+    private void renderSlotSelection(GuiGraphics guiGraphics, Player player) {
+        Hotbar hotbar = getHotbar(player);
+
         guiGraphics.pose().pushPose();
         guiGraphics.pose().translate(0, 0, 0);
 
@@ -139,7 +129,9 @@ public class HotbarViewWidget implements Renderable {
         guiGraphics.pose().popPose();
     }
 
-    private void renderSlotSelectionOutline(GuiGraphics guiGraphics) {
+    private void renderSlotSelectionOutline(GuiGraphics guiGraphics, Player player) {
+        Hotbar hotbar = getHotbar(player);
+
         guiGraphics.pose().pushPose();
         guiGraphics.pose().translate(-1, -1, 0);
 
@@ -175,7 +167,7 @@ public class HotbarViewWidget implements Renderable {
     }
 
     // copied over from Gui class
-    private void renderItemSlot(GuiGraphics guiGraphics, int x, int y, float partialTick, ItemStack itemStack, int seed) {
+    private void renderItemSlot(GuiGraphics guiGraphics, int x, int y, float partialTick, Player player, ItemStack itemStack, int seed) {
         if (!itemStack.isEmpty()) {
             float f = itemStack.getPopTime() - partialTick;
             if (f > 0.0F) {
@@ -195,19 +187,22 @@ public class HotbarViewWidget implements Renderable {
         }
     }
 
-    public Vec2 calculatePosition(GuiGraphics guiGraphics, ClientConfig clientConfig) {
-        Vec2 hotbarSize = size();
+    public Vec2 calculatePosition(ClientConfig clientConfig, Hotbar hotbar) {
+        Vec2 hotbarSize = size(hotbar);
+
+        Window window = Minecraft.getInstance().getWindow();
+        double guiScale = window.getGuiScale();
 
         ClientConfig.HotbarAnchorX hotbarAnchorX = clientConfig.getHotbarAnchorX();
-        int hotbarOffsetX = clientConfig.getHotbarOffsetX();
-        int hotbarPaddingX = clientConfig.getHotbarPaddingX();
+        int hotbarOffsetX = (int) (clientConfig.getHotbarOffsetX() * guiScale);
+        int hotbarPaddingX = (int) (clientConfig.getHotbarPaddingX() * guiScale);
 
         ClientConfig.HotbarAnchorY hotbarAnchorY = clientConfig.getHotbarAnchorY();
-        int hotbarOffsetY = clientConfig.getHotbarOffsetY();
-        int hotbarPaddingY = clientConfig.getHotbarPaddingY();
+        int hotbarOffsetY = (int) (clientConfig.getHotbarOffsetY() * guiScale);
+        int hotbarPaddingY = (int) (clientConfig.getHotbarPaddingY() * guiScale);
 
-        int guiWidth = guiGraphics.guiWidth();
-        int guiHeight = guiGraphics.guiHeight();
+        int guiWidth = window.getGuiScaledWidth();
+        int guiHeight = window.getGuiScaledHeight();
 
         int safeWidth = guiWidth - (hotbarPaddingX * 2);
         int safeHeight = guiHeight - (hotbarPaddingY * 2);
@@ -254,5 +249,9 @@ public class HotbarViewWidget implements Renderable {
         int posY = hotbarPaddingY + anchorY + hotbarOffsetY;
 
         return new Vec2(posX, posY);
+    }
+
+    public Hotbar getHotbar(@NotNull Player player) {
+        return ((IMixinInventory) player.getInventory()).inventoryoverhaul$getHotbar();
     }
 }
