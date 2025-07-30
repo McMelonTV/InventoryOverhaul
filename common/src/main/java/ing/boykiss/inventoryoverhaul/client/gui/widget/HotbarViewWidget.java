@@ -94,7 +94,7 @@ public class HotbarViewWidget implements Renderable {
                 guiGraphics.pose().pushPose();
                 guiGraphics.pose().translate(posX, posY, 0);
 
-                guiGraphics.blitSprite(RenderType::guiTextured, HOTBAR_SLOT_SPRITE, 0, 0, 20, 20);
+                guiGraphics.blitSprite(HOTBAR_SLOT_SPRITE, 0, 0, 20, 20);
 
                 renderItemSlot(guiGraphics, 2, 2, partialTick, player.getInventory().getItem(itemIndex), itemIndex + 1);
 
@@ -125,7 +125,7 @@ public class HotbarViewWidget implements Renderable {
         guiGraphics.pose().pushPose();
         guiGraphics.pose().translate(0, 0, 0);
 
-        int selectedSlot = player.getInventory().getSelectedSlot();
+        int selectedSlot = player.getInventory().selected;
         int selectedX = selectedSlot % hotbar.getSizeX();
         int selectedY = selectedSlot / hotbar.getSizeX();
 
@@ -133,7 +133,7 @@ public class HotbarViewWidget implements Renderable {
         int selectedPosY = selectedY * 20;
 
         guiGraphics.blitSprite(
-                RenderType::guiTextured, HOTBAR_SELECTION_SPRITE, selectedPosX, selectedPosY, 22, 22
+                HOTBAR_SELECTION_SPRITE, selectedPosX, selectedPosY, 22, 22
         );
 
         guiGraphics.pose().popPose();
@@ -143,7 +143,7 @@ public class HotbarViewWidget implements Renderable {
         guiGraphics.pose().pushPose();
         guiGraphics.pose().translate(-1, -1, 0);
 
-        int selectedSlot = player.getInventory().getSelectedSlot();
+        int selectedSlot = player.getInventory().selected;
         int selectedX = selectedSlot % hotbar.getSizeX();
         int selectedY = selectedSlot / hotbar.getSizeX();
 
