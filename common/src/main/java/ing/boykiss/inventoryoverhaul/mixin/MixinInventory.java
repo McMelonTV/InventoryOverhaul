@@ -9,7 +9,6 @@ import ing.boykiss.inventoryoverhaul.inventory.Hotbar;
 import ing.boykiss.inventoryoverhaul.network.S2CInventorySizeUpdatePacket;
 import net.minecraft.client.Minecraft;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.EntityEquipment;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.GameRules;
@@ -66,12 +65,13 @@ public abstract class MixinInventory implements IMixinInventory {
     }
 
     @Shadow
-    public abstract void setSelectedSlot(int i);
+    public abstract void swapPaint(double d);
 
-    @Inject(method = "setSelectedSlot", at = @At("HEAD"), cancellable = true)
-    public void setSelectedSlot(int i, CallbackInfo ci) {
+    @Inject(method = "swapPaint", at = @At("HEAD"), cancellable = true)
+    public void swapPaint(double d, CallbackInfo ci) {
+        int i = (int) d;
         if (!Inventory.isHotbarSlot(i)) {
-            setSelectedSlot(getSelectionSize() - 1);
+            swapPaint(getSelectionSize() - 1);
         } else {
             this.selected = i;
         }
@@ -79,7 +79,7 @@ public abstract class MixinInventory implements IMixinInventory {
     }
 
     @Inject(method = "<init>", at = @At("TAIL"))
-    public void init(Player player, EntityEquipment entityEquipment, CallbackInfo ci) {
+    public void init(Player player, CallbackInfo ci) {
         this.inventoryoverhaul$hotbar = new Hotbar(player);
 
         if (!(player instanceof ServerPlayer serverPlayer)) return;

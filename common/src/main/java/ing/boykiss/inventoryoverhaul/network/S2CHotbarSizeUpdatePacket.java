@@ -34,7 +34,7 @@ public record S2CHotbarSizeUpdatePacket(int x, int y) implements CustomPacketPay
         Inventory inventory = player.getInventory();
         ((IMixinInventory) inventory).inventoryoverhaul$getHotbar().setSize(packet.x(), packet.y(), false);
 
-        inventory.setSelectedSlot(inventory.getSelectedSlot()); // reset the slot to the last available if outside bounds after size update
+        inventory.swapPaint(inventory.selected); // reset the slot to the last available if outside bounds after size update
     }
 
     @Override

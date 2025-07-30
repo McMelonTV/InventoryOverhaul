@@ -31,7 +31,7 @@ public abstract class AbstractClientConfig {
         File file = Minecraft.getInstance().gameDirectory.toPath().resolve("config").resolve(CONFIG_FILE_NAME).toFile();
 
         if (!file.getParentFile().exists()) {
-            boolean dirSuccess = file.mkdirs();
+            boolean dirSuccess = file.getParentFile().mkdirs();
             if (!dirSuccess) throw new RuntimeException("Failed while creating ClientConfig file");
         }
 

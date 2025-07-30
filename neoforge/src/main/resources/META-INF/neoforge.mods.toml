@@ -16,21 +16,21 @@ logoFile = "assets/inventoryoverhaul/icon.png"
 [[dependencies.inventoryoverhaul]]
 modId = "neoforge"
 type = "required"
-versionRange = "[21,)"
+versionRange = "[21.1,)"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.inventoryoverhaul]]
 modId = "minecraft"
 type = "required"
-versionRange = "[1.21.8,)"
+versionRange = "[1.21.1,)"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.inventoryoverhaul]]
 modId = "architectury"
 type = "required"
-versionRange = "[17.0.8,)"
+versionRange = "[13.0.8,)"
 ordering = "AFTER"
 side = "BOTH"
 
