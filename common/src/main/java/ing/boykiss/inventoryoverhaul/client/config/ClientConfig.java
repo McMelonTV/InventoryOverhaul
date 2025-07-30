@@ -19,7 +19,7 @@ public class ClientConfig extends AbstractClientConfig {
     public HotbarAnchorX hotbarAnchorX = HotbarAnchorX.CENTER;
 
     @ConfigOption(size = ConfigOption.WidgetSize.TINY)
-    public int hotbarOffsetX = 0;
+    public int hotbarOffsetX = 1;
 
     @ConfigOption(size = ConfigOption.WidgetSize.TINY)
     public int hotbarPaddingX = 0;
@@ -28,7 +28,7 @@ public class ClientConfig extends AbstractClientConfig {
     public HotbarAnchorY hotbarAnchorY = HotbarAnchorY.BOTTOM;
 
     @ConfigOption(size = ConfigOption.WidgetSize.TINY)
-    public int hotbarOffsetY = 0;
+    public int hotbarOffsetY = 1;
 
     @ConfigOption(size = ConfigOption.WidgetSize.TINY)
     public int hotbarPaddingY = 0;
