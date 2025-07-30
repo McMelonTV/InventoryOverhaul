@@ -45,7 +45,7 @@ https://github.com/user-attachments/assets/f60c17a2-a35b-450a-85a8-b9eb9b5d94fc
 2. Download the latest release of [Architectury API](https://modrinth.com/mod/architectury-api/versions) and the mod
    from [GitHub Releases](https://github.com/McMelonTV/InventoryOverhaul/releases/latest), [Modrinth](https://modrinth.com/project/inventory-overhaul/versions),
    or [CurseForge](https://www.curseforge.com/minecraft/mc-mods/inventory-overhaul/files/all) for your Minecraft version as well as [Fabric API](https://modrinth.com/mod/fabric-api) if you are using Fabric/Quilt
-3. Add the mod jar file to your `.minecraft/mods` folder
+3. Add the mod and API jars file to your `.minecraft/mods` folder
 4. Set up the gamerules and client configuration to your liking
 5. Have fun!
 
