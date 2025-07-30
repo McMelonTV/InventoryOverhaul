@@ -6,6 +6,7 @@ import ing.boykiss.inventoryoverhaul.client.config.ClientConfig;
 import ing.boykiss.inventoryoverhaul.client.keybind.ModifierKeybind;
 import ing.boykiss.inventoryoverhaul.event.ClientStartedEvent;
 import ing.boykiss.inventoryoverhaul.event.PlayerJoinEvent;
+import ing.boykiss.inventoryoverhaul.event.ServerLevelLoadEvent;
 import ing.boykiss.inventoryoverhaul.event.ServerStartingEvent;
 import ing.boykiss.inventoryoverhaul.gamerule.HotbarSizeGameRules;
 import ing.boykiss.inventoryoverhaul.gamerule.InventorySizeGameRules;
@@ -35,6 +36,7 @@ public final class InventoryOverhaul {
     public static class Server {
         public static void initServer() {
             ServerStartingEvent.init();
+            ServerLevelLoadEvent.init();
             ModNetwork.initServer();
         }
     }
