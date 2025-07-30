@@ -4,7 +4,6 @@ import dev.architectury.networking.NetworkManager;
 import dev.architectury.utils.EnvExecutor;
 import ing.boykiss.inventoryoverhaul.InventoryOverhaul;
 import ing.boykiss.inventoryoverhaul.gamerule.HotbarSizeGameRules;
-import ing.boykiss.inventoryoverhaul.gamerule.InventorySizeGameRules;
 import ing.boykiss.inventoryoverhaul.imixin.IMixinInventory;
 import ing.boykiss.inventoryoverhaul.inventory.Hotbar;
 import ing.boykiss.inventoryoverhaul.network.S2CInventorySizeUpdatePacket;
@@ -86,13 +85,13 @@ public abstract class MixinInventory implements IMixinInventory {
         if (player instanceof ServerPlayer serverPlayer) {
             GameRules gameRules = serverPlayer.server.getGameRules();
 
-            int inventorySizeX = gameRules.getInt(InventorySizeGameRules.INVENTORY_SIZE_X);
-            int inventorySizeY = gameRules.getInt(InventorySizeGameRules.INVENTORY_SIZE_Y);
+//            int inventorySizeX = gameRules.getInt(InventorySizeGameRules.INVENTORY_SIZE_X);
+//            int inventorySizeY = gameRules.getInt(InventorySizeGameRules.INVENTORY_SIZE_Y);
             int hotbarSizeX = gameRules.getInt(HotbarSizeGameRules.HOTBAR_SIZE_X);
             int hotbarSizeY = gameRules.getInt(HotbarSizeGameRules.HOTBAR_SIZE_Y);
 
             // we need to sync on the PlayerJoin event to prevent trying to send data before a connection is created
-            inventoryoverhaul$setSize(inventorySizeX, inventorySizeY, false);
+//            inventoryoverhaul$setSize(inventorySizeX, inventorySizeY, false);
             inventoryoverhaul$hotbar.setSize(hotbarSizeX, hotbarSizeY, false);
         }
     }
