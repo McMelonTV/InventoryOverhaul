@@ -1,6 +1,6 @@
 modLoader = "javafml"
 loaderVersion = "[2,)"
-#issueTrackerURL = ""
+issueTrackerURL = "https://github.com/McMelonTV/InventoryOverhaul/issues"
 license = "MIT"
 
 [[mods]]
@@ -11,7 +11,7 @@ authors = "mel (https://github.com/McMelonTV)"
 description = '''
 A mod that aims to improve inventory management by changing the core aspects of the player's inventory and hotbar.
 '''
-#logoFile = ""
+logoFile = "assets/inventoryoverhaul/icon.png"
 
 [[dependencies.inventoryoverhaul]]
 modId = "neoforge"
