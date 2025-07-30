@@ -3,12 +3,14 @@ package ing.boykiss.inventoryoverhaul.event;
 import dev.architectury.event.events.common.LifecycleEvent;
 import ing.boykiss.inventoryoverhaul.InventoryOverhaul;
 import ing.boykiss.inventoryoverhaul.gamerule.HotbarSizeGameRules;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.level.GameRules;
 
-public class ServerStartingEvent {
+public class ServerLevelLoadEvent {
     public static void init() {
-        LifecycleEvent.SERVER_STARTING.register(server -> {
-            GameRules gameRules = server.getGameRules();
+        LifecycleEvent.SERVER_LEVEL_LOAD.register(serverLevel -> {
+            MinecraftServer server = serverLevel.getServer();
+            GameRules gameRules = serverLevel.getGameRules();
 
             GameRules.IntegerValue hotbarSizeX = gameRules.getRule(HotbarSizeGameRules.HOTBAR_SIZE_X);
             GameRules.IntegerValue hotbarSizeY = gameRules.getRule(HotbarSizeGameRules.HOTBAR_SIZE_Y);
@@ -20,8 +22,6 @@ public class ServerStartingEvent {
                 hotbarSizeX.set(9, server);
                 hotbarSizeY.set(1, server);
             }
-
-            InventoryOverhaul.server = server;
         });
     }
 }

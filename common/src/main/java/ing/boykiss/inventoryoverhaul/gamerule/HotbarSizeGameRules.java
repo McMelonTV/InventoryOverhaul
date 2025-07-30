@@ -17,9 +17,10 @@ public class HotbarSizeGameRules {
 
         if (hotbarSizeX.get() * hotbarSizeY.get() > 36) {
             InventoryOverhaul.LOGGER.error("Tried to set hotbar size to more than inventory size, resetting to defaults");
+            hotbarSizeX.set(1, server);
 
-            hotbarSizeX.set(9, server);
             hotbarSizeY.set(1, server);
+            hotbarSizeX.set(9, server);
         }
 
         server.getAllLevels().forEach(
@@ -36,6 +37,7 @@ public class HotbarSizeGameRules {
 
         if (hotbarSizeX.get() * hotbarSizeY.get() > 36) {
             InventoryOverhaul.LOGGER.error("Tried to set hotbar size to more than inventory size, resetting to defaults");
+            hotbarSizeY.set(1, server);
 
             hotbarSizeX.set(9, server);
             hotbarSizeY.set(1, server);
