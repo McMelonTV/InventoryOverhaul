@@ -53,7 +53,7 @@ public abstract class MixinGui {
         if (player == null) return;
 
         if (inventoryoverhaul$hotbarViewWidget == null)
-            inventoryoverhaul$hotbarViewWidget = new HotbarViewWidget(player);
+            inventoryoverhaul$hotbarViewWidget = new HotbarViewWidget();
 
         // start vanilla
         ItemStack itemStack = player.getOffhandItem();
@@ -68,7 +68,7 @@ public abstract class MixinGui {
         }
         // end vanilla
 
-        inventoryoverhaul$hotbarViewWidget.render(guiGraphics, deltaTracker.getGameTimeDeltaPartialTick(false));
+        inventoryoverhaul$hotbarViewWidget.render(guiGraphics, deltaTracker.getGameTimeDeltaPartialTick(false), player);
 
         // start vanilla
         if (!itemStack.isEmpty()) {

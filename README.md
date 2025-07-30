@@ -60,7 +60,5 @@ https://github.com/user-attachments/assets/f60c17a2-a35b-450a-85a8-b9eb9b5d94fc
   vanilla position, sometimes under the hotbar, depending on the configured hotbar position
 - The hotbar is sometimes weirdly offset by a pixel or two; this especially noticeable when the client config values are
   set to the defaults
-- When joining a different world than the one loaded first after starting the game, the hotbar will not show properly
-  and will show the items and size from the previous world until a restart of the game
 - Found another bug? Please report it in
   the [Issues tab on GitHub](https://github.com/McMelonTV/InventoryOverhaul/issues)
