@@ -14,8 +14,8 @@ jobs:
         id: set-branches
         run: |
           BRANCHES=$(gh api repos/${GITHUB_REPOSITORY}/branches --paginate \
-            | jq -r '[.[] | select(.name == "main" or (.name | startswith("backport/"))) | .name ]' )
-          echo "branches=${BRANCHES}" >> $GITHUB_OUTPUT
+            | jq -c '[.[] | select(.name == "main" or (.name | startswith("backport/"))) | .name]')
+          echo "branches=$BRANCHES" >> $GITHUB_OUTPUT
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   build-and-upload:
