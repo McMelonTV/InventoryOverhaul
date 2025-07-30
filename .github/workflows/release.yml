@@ -61,7 +61,7 @@ jobs:
           VERSION=$(grep '^mod_version=' gradle.properties | cut -d'=' -f2-)
           ARCHIVES_NAME=$(grep '^archives_name=' gradle.properties | cut -d'=' -f2-)
           MC_VERSION=$(grep '^minecraft_version=' gradle.properties | cut -d'=' -f2-)
-          JAR_PATH="./${{ matrix.platform }}/build/libs/${ARCHIVES_NAME}-${{ matrix.platform }}-${VERSION}-${MC_VERSION}.jar"
+          JAR_PATH="./${{ matrix.platform }}/build/libs/${ARCHIVES_NAME}-${{ matrix.platform }}-mc${MC_VERSION}-${VERSION}.jar"
           echo "JAR_PATH=${JAR_PATH}" >> $GITHUB_ENV
       - name: Log environment info
         run: |
