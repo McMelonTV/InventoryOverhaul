@@ -6,22 +6,22 @@ import ing.boykiss.inventoryoverhaul.client.config.ClientConfig;
 import ing.boykiss.inventoryoverhaul.client.keybind.ModifierKeybind;
 import ing.boykiss.inventoryoverhaul.event.ClientStartedEvent;
 import ing.boykiss.inventoryoverhaul.event.PlayerJoinEvent;
-import ing.boykiss.inventoryoverhaul.event.ServerLevelLoadEvent;
 import ing.boykiss.inventoryoverhaul.event.ServerStartingEvent;
 import ing.boykiss.inventoryoverhaul.gamerule.HotbarSizeGameRules;
 import ing.boykiss.inventoryoverhaul.gamerule.InventorySizeGameRules;
 import ing.boykiss.inventoryoverhaul.network.ModNetwork;
 import ing.boykiss.inventoryoverhaul.util.annotations.AnnotationProcessor;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.server.MinecraftServer;
-import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public final class InventoryOverhaul {
     public static final String MOD_ID = "inventoryoverhaul";
     public static final Logger LOGGER = LoggerFactory.getLogger(InventoryOverhaul.class);
-
-    public static @Nullable MinecraftServer server;
+    @Environment(EnvType.SERVER)
+    public static MinecraftServer server;
 
     public static void init() {
         InventorySizeGameRules.init();
@@ -33,15 +33,18 @@ public final class InventoryOverhaul {
         EnvExecutor.runInEnv(Env.CLIENT, () -> InventoryOverhaul.Client::initClient);
     }
 
+    @Environment(EnvType.SERVER)
     public static class Server {
+        @Environment(EnvType.SERVER)
         public static void initServer() {
             ServerStartingEvent.init();
-            ServerLevelLoadEvent.init();
             ModNetwork.initServer();
         }
     }
 
+    @Environment(EnvType.CLIENT)
     public static class Client {
+        @Environment(EnvType.CLIENT)
         public static void initClient() {
             AnnotationProcessor.validateRequireFieldAnnotations(ClientConfig.class);
             ClientStartedEvent.init();

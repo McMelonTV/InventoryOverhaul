@@ -7,7 +7,7 @@ import ing.boykiss.inventoryoverhaul.imixin.IMixinInventory;
 import ing.boykiss.inventoryoverhaul.inventory.Hotbar;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.renderer.RenderPipelines;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -50,25 +50,25 @@ public class HotbarViewWidget {
     public void render(GuiGraphics guiGraphics, float partialTick, Player player) {
         Hotbar hotbar = getHotbar(player);
 
-        guiGraphics.pose().pushMatrix();
+        guiGraphics.pose().pushPose();
 
         Vec2 hotbarPosition = calculatePosition(clientConfig, hotbar);
-        guiGraphics.pose().translate(hotbarPosition.x, hotbarPosition.y);
-        guiGraphics.pose().scale((float) clientConfig.getHotbarScale(), (float) clientConfig.getHotbarScale());
+        guiGraphics.pose().translate(hotbarPosition.x, hotbarPosition.y, -90.0F);
+        guiGraphics.pose().scale((float) clientConfig.getHotbarScale(), (float) clientConfig.getHotbarScale(), (float) clientConfig.getHotbarScale());
 
         renderSlots(guiGraphics, partialTick, player);
         renderOutline(guiGraphics, player);
         renderSlotSelection(guiGraphics, player);
         renderSlotSelectionOutline(guiGraphics, player);
 
-        guiGraphics.pose().popMatrix();
+        guiGraphics.pose().popPose();
     }
 
     private void renderSlots(GuiGraphics guiGraphics, float partialTick, Player player) {
         Hotbar hotbar = getHotbar(player);
 
-        guiGraphics.pose().pushMatrix();
-        guiGraphics.pose().translate(1, 1);
+        guiGraphics.pose().pushPose();
+        guiGraphics.pose().translate(1, 1, 0);
 
         for (int slotY = 0; slotY < hotbar.getSizeY(); slotY++) {
             for (int slotX = 0; slotX < hotbar.getSizeX(); slotX++) {
@@ -77,25 +77,25 @@ public class HotbarViewWidget {
                 int posX = slotX * 20;
                 int posY = slotY * 20;
 
-                guiGraphics.pose().pushMatrix();
-                guiGraphics.pose().translate(posX, posY);
+                guiGraphics.pose().pushPose();
+                guiGraphics.pose().translate(posX, posY, 0);
 
-                guiGraphics.blitSprite(RenderPipelines.GUI_TEXTURED, HOTBAR_SLOT_SPRITE, 0, 0, 20, 20);
+                guiGraphics.blitSprite(RenderType::guiTextured, HOTBAR_SLOT_SPRITE, 0, 0, 20, 20);
 
                 renderItemSlot(guiGraphics, 2, 2, partialTick, player, player.getInventory().getItem(itemIndex), itemIndex + 1);
 
-                guiGraphics.pose().popMatrix();
+                guiGraphics.pose().popPose();
             }
         }
 
-        guiGraphics.pose().popMatrix();
+        guiGraphics.pose().popPose();
     }
 
     private void renderOutline(GuiGraphics guiGraphics, Player player) {
         Hotbar hotbar = getHotbar(player);
 
-        guiGraphics.pose().pushMatrix();
-        guiGraphics.pose().translate(0, 0);
+        guiGraphics.pose().pushPose();
+        guiGraphics.pose().translate(0, 0, 0);
 
         int hotbarX = hotbar.getSizeX();
         int hotbarY = hotbar.getSizeY();
@@ -106,14 +106,14 @@ public class HotbarViewWidget {
         guiGraphics.fill(0, 0, 1, 1 + hotbarY * 20, 0xFF000000);
         guiGraphics.fill(hotbarX * 20, 0, 1 + hotbarX * 20, 1 + hotbarY * 20, 0xFF000000);
 
-        guiGraphics.pose().popMatrix();
+        guiGraphics.pose().popPose();
     }
 
     private void renderSlotSelection(GuiGraphics guiGraphics, Player player) {
         Hotbar hotbar = getHotbar(player);
 
-        guiGraphics.pose().pushMatrix();
-        guiGraphics.pose().translate(0, 0);
+        guiGraphics.pose().pushPose();
+        guiGraphics.pose().translate(0, 0, 0);
 
         int selectedSlot = player.getInventory().getSelectedSlot();
         int selectedX = selectedSlot % hotbar.getSizeX();
@@ -123,17 +123,17 @@ public class HotbarViewWidget {
         int selectedPosY = selectedY * 20;
 
         guiGraphics.blitSprite(
-                RenderPipelines.GUI_TEXTURED, HOTBAR_SELECTION_SPRITE, selectedPosX, selectedPosY, 22, 22
+                RenderType::guiTextured, HOTBAR_SELECTION_SPRITE, selectedPosX, selectedPosY, 22, 22
         );
 
-        guiGraphics.pose().popMatrix();
+        guiGraphics.pose().popPose();
     }
 
     private void renderSlotSelectionOutline(GuiGraphics guiGraphics, Player player) {
         Hotbar hotbar = getHotbar(player);
 
-        guiGraphics.pose().pushMatrix();
-        guiGraphics.pose().translate(-1, -1);
+        guiGraphics.pose().pushPose();
+        guiGraphics.pose().translate(-1, -1, 0);
 
         int selectedSlot = player.getInventory().getSelectedSlot();
         int selectedX = selectedSlot % hotbar.getSizeX();
@@ -163,7 +163,7 @@ public class HotbarViewWidget {
             guiGraphics.fill(selectedPosX + 22, selectedPosY, endSelectedPosX + 22, endSelectedPosY + (lastY ? 22 : 23), 0xFF000000);
         }
 
-        guiGraphics.pose().popMatrix();
+        guiGraphics.pose().popPose();
     }
 
     // copied over from Gui class
@@ -172,15 +172,15 @@ public class HotbarViewWidget {
             float f = itemStack.getPopTime() - partialTick;
             if (f > 0.0F) {
                 float g = 1.0F + f / 5.0F;
-                guiGraphics.pose().pushMatrix();
-                guiGraphics.pose().translate((float) (x + 8), (float) (y + 12));
-                guiGraphics.pose().scale(1.0F / g, (g + 1.0F) / 2.0F);
-                guiGraphics.pose().translate((float) (-(x + 8)), (float) (-(y + 12)));
+                guiGraphics.pose().pushPose();
+                guiGraphics.pose().translate((float) (x + 8), (float) (y + 12), 0.0F);
+                guiGraphics.pose().scale(1.0F / g, (g + 1.0F) / 2.0F, 1.0F);
+                guiGraphics.pose().translate((float) (-(x + 8)), (float) (-(y + 12)), 0.0F);
             }
 
             guiGraphics.renderItem(player, itemStack, x, y, seed);
             if (f > 0.0F) {
-                guiGraphics.pose().popMatrix();
+                guiGraphics.pose().popPose();
             }
 
             guiGraphics.renderItemDecorations(Minecraft.getInstance().font, itemStack, x, y);
