@@ -173,9 +173,9 @@ public class HotbarViewWidget {
             if (f > 0.0F) {
                 float g = 1.0F + f / 5.0F;
                 guiGraphics.pose().pushPose();
-                guiGraphics.pose().translate((float) (x + 8), (float) (y + 12), 0);
-                guiGraphics.pose().scale(1.0F / g, (g + 1.0F) / 2.0F, 0);
-                guiGraphics.pose().translate((float) (-(x + 8)), (float) (-(y + 12)), 0);
+                guiGraphics.pose().translate((float) (x + 8), (float) (y + 12), 0.0F);
+                guiGraphics.pose().scale(1.0F / g, (g + 1.0F) / 2.0F, 1.0F);
+                guiGraphics.pose().translate((float) (-(x + 8)), (float) (-(y + 12)), 0.0F);
             }
 
             guiGraphics.renderItem(player, itemStack, x, y, seed);
