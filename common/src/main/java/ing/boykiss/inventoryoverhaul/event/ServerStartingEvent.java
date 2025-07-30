@@ -15,6 +15,7 @@ public class ServerStartingEvent {
 
             if (hotbarSizeX.get() * hotbarSizeY.get() > 36) {
                 InventoryOverhaul.LOGGER.error("Hotbar total size is set to more than inventory size, resetting to defaults");
+                hotbarSizeY.set(1, server);
 
                 hotbarSizeX.set(9, server);
                 hotbarSizeY.set(1, server);
