@@ -7,7 +7,7 @@ with gamerules and through the mod's config.
 
 ### Showcase
 
-![Showcase Video](https://raw.githubusercontent.com/McMelonTV/InventoryOverhaul/refs/heads/main/assets/showcase.mp4)
+[Showcase Video](https://raw.githubusercontent.com/McMelonTV/InventoryOverhaul/refs/heads/main/assets/showcase.mp4)
 
 ### Features
 
