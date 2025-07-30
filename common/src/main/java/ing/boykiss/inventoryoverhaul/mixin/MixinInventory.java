@@ -82,18 +82,19 @@ public abstract class MixinInventory implements IMixinInventory {
     public void init(Player player, EntityEquipment entityEquipment, CallbackInfo ci) {
         this.inventoryoverhaul$hotbar = new Hotbar(player);
 
-        if (player instanceof ServerPlayer serverPlayer) {
-            GameRules gameRules = serverPlayer.server.getGameRules();
+        if (!(player instanceof ServerPlayer serverPlayer)) return;
+        if (serverPlayer.getServer() == null) return;
+        GameRules gameRules = serverPlayer.getServer().getGameRules();
 
 //            int inventorySizeX = gameRules.getInt(InventorySizeGameRules.INVENTORY_SIZE_X);
 //            int inventorySizeY = gameRules.getInt(InventorySizeGameRules.INVENTORY_SIZE_Y);
-            int hotbarSizeX = gameRules.getInt(HotbarSizeGameRules.HOTBAR_SIZE_X);
-            int hotbarSizeY = gameRules.getInt(HotbarSizeGameRules.HOTBAR_SIZE_Y);
+        int hotbarSizeX = gameRules.getInt(HotbarSizeGameRules.HOTBAR_SIZE_X);
+        int hotbarSizeY = gameRules.getInt(HotbarSizeGameRules.HOTBAR_SIZE_Y);
 
-            // we need to sync on the PlayerJoin event to prevent trying to send data before a connection is created
+        // we need to sync on the PlayerJoin event to prevent trying to send data before a connection is created
 //            inventoryoverhaul$setSize(inventorySizeX, inventorySizeY, false);
-            inventoryoverhaul$hotbar.setSize(hotbarSizeX, hotbarSizeY, false);
-        }
+        inventoryoverhaul$hotbar.setSize(hotbarSizeX, hotbarSizeY, false);
+
     }
 
     @Override
