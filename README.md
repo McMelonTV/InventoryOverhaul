@@ -1,7 +1,3 @@
-[![Modrinth Downloads](https://img.shields.io/modrinth/dt/inventory-overhaul?style=for-the-badge&logo=modrinth&color=1bd96a)](https://modrinth.com/project/inventory-overhaul/versions)
-[![CurseForge Downloads](https://img.shields.io/curseforge/dt/1317181?style=for-the-badge&logo=curseforge&color=f16436)](https://www.curseforge.com/minecraft/mc-mods/inventory-overhaul/files/all)
-[![GitHub Downloads](https://img.shields.io/github/downloads/McMelonTV/InventoryOverhaul/total?style=for-the-badge&logo=github&color=f0f6fc)](https://github.com/McMelonTV/InventoryOverhaul/releases/latest)
-
 # Inventory Overhaul
 
 A mod that aims to improve inventory management by changing the core aspects of the player's inventory and hotbar.
@@ -43,8 +39,8 @@ https://github.com/user-attachments/assets/f60c17a2-a35b-450a-85a8-b9eb9b5d94fc
 1. Set up your preferred mod loader (Thanks to [Architectury](https://github.com/architectury), this mod currently
    supports both Fabric and NeoForge, including derivatives like Quilt)
 2. Download the latest release of the mod
-   from [GitHub Releases](https://github.com/McMelonTV/InventoryOverhaul/releases/latest), [Modrinth](https://modrinth.com/project/inventory-overhaul/versions),
-   or [CurseForge](https://www.curseforge.com/minecraft/mc-mods/inventory-overhaul/files/all) for your Minecraft version
+   from [GitHub Releases](https://github.com/McMelonTV/InventoryOverhaul/releases/latest), [Modrinth](tba),
+   or [CurseForge](tba) for your Minecraft version
 3. Add the mod jar file to your `.minecraft/mods` folder
 4. Set up the gamerules and client configuration to your liking
 5. Have fun!
@@ -71,6 +67,5 @@ If you are trying to use a Minecraft version that is not yet supported by the mo
   vanilla position, sometimes under the hotbar, depending on the configured hotbar position
 - The hotbar is sometimes weirdly offset by a pixel or two; this especially noticeable when the client config values are
   set to the defaults
-- You cannot currently set the hotbar position offset and padding through the in-game config screen
 - Found another bug? Please report it in
   the [Issues tab on GitHub](https://github.com/McMelonTV/InventoryOverhaul/issues)
