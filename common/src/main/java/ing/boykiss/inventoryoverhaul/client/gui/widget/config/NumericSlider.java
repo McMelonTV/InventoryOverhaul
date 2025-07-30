@@ -6,7 +6,6 @@ import ing.boykiss.inventoryoverhaul.client.gui.widget.Slider;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
-// TODO: Untested
 public class NumericSlider implements ConfigSlider {
     private final ConfigOption.WidgetSize size;
     private final Slider widget;
