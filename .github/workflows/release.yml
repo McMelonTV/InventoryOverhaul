@@ -1,0 +1,52 @@
+name: Build and Release
+
+on:
+  release:
+    types: [ created ]
+
+jobs:
+  prepare:
+    runs-on: blacksmith-2vcpu-ubuntu-2404
+    outputs:
+      branches: ${{ steps.set-branches.outputs.branches }}
+    steps:
+      - name: List branches
+        id: set-branches
+        run: |
+          BRANCHES=$(gh api repos/${GITHUB_REPOSITORY}/branches --paginate \
+            | jq -r '[.[] | select(.name == "main" or (.name | startswith("backport/"))) | .name ]' )
+          echo "branches=${BRANCHES}" >> $GITHUB_OUTPUT
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  build-and-upload:
+    needs: prepare
+    runs-on: blacksmith-8vcpu-ubuntu-2404
+    strategy:
+      fail-fast: false
+      matrix:
+        branch: ${{ fromJson(needs.prepare.outputs.branches) }}
+        platform: [ fabric, neoforge ]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ matrix.branch }}
+      - name: Setup java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+      - name: Build
+        run: ./gradlew build
+      - name: Prepare JAR for upload
+        run: |
+          VERSION="${GITHUB_REF##*/}" # Extracts version from the tag
+          PROJECTNAME=$(basename $GITHUB_REPOSITORY)
+          JAR_PATH="./${{ matrix.platform }}/build/libs/${PROJECTNAME}-${{ matrix.platform }}-${VERSION}.jar"
+          echo "JAR_PATH=${JAR_PATH}" >> $GITHUB_ENV
+      - name: Upload release asset
+        uses: softprops/action-gh-release@v2
+        with:
+          files: ${{ env.JAR_PATH }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
