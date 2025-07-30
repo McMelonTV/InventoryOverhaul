@@ -9,7 +9,6 @@ import ing.boykiss.inventoryoverhaul.imixin.IMixinInventory;
 import ing.boykiss.inventoryoverhaul.inventory.Hotbar;
 import ing.boykiss.inventoryoverhaul.network.S2CInventorySizeUpdatePacket;
 import net.minecraft.client.Minecraft;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.EntityEquipment;
 import net.minecraft.world.entity.player.Inventory;
@@ -23,8 +22,6 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-
-import java.io.IOException;
 
 @Mixin(Inventory.class)
 public abstract class MixinInventory implements IMixinInventory {
@@ -55,17 +52,11 @@ public abstract class MixinInventory implements IMixinInventory {
 
             return ((IMixinInventory) player.getInventory()).inventoryoverhaul$getHotbar().getTotalSize();
         }, () -> () -> {
-            // TODO: we might not want to use the overworld here
-            try (ServerLevel serverLevel = InventoryOverhaul.server.overworld()) {
-                GameRules gameRules = serverLevel.getGameRules();
-                int hotbarSizeX = gameRules.getInt(HotbarSizeGameRules.HOTBAR_SIZE_X);
-                int hotbarSizeY = gameRules.getInt(HotbarSizeGameRules.HOTBAR_SIZE_Y);
+            GameRules gameRules = InventoryOverhaul.server.getGameRules();
+            int hotbarSizeX = gameRules.getInt(HotbarSizeGameRules.HOTBAR_SIZE_X);
+            int hotbarSizeY = gameRules.getInt(HotbarSizeGameRules.HOTBAR_SIZE_Y);
 
-                return hotbarSizeX * hotbarSizeY;
-            } catch (IOException e) {
-                InventoryOverhaul.LOGGER.error(e.getMessage());
-                return 0;
-            }
+            return hotbarSizeX * hotbarSizeY;
         });
         cir.setReturnValue(hotbarSize);
     }
@@ -93,20 +84,16 @@ public abstract class MixinInventory implements IMixinInventory {
         this.inventoryoverhaul$hotbar = new Hotbar(player);
 
         if (player instanceof ServerPlayer serverPlayer) {
-            try (ServerLevel serverLevel = serverPlayer.serverLevel()) {
-                GameRules gameRules = serverLevel.getGameRules();
+            GameRules gameRules = serverPlayer.server.getGameRules();
 
-                int inventorySizeX = gameRules.getInt(InventorySizeGameRules.INVENTORY_SIZE_X);
-                int inventorySizeY = gameRules.getInt(InventorySizeGameRules.INVENTORY_SIZE_Y);
-                int hotbarSizeX = gameRules.getInt(HotbarSizeGameRules.HOTBAR_SIZE_X);
-                int hotbarSizeY = gameRules.getInt(HotbarSizeGameRules.HOTBAR_SIZE_Y);
+            int inventorySizeX = gameRules.getInt(InventorySizeGameRules.INVENTORY_SIZE_X);
+            int inventorySizeY = gameRules.getInt(InventorySizeGameRules.INVENTORY_SIZE_Y);
+            int hotbarSizeX = gameRules.getInt(HotbarSizeGameRules.HOTBAR_SIZE_X);
+            int hotbarSizeY = gameRules.getInt(HotbarSizeGameRules.HOTBAR_SIZE_Y);
 
-                // we need to sync on the PlayerJoin event to prevent trying to send data before a connection is created
-                inventoryoverhaul$setSize(inventorySizeX, inventorySizeY, false);
-                inventoryoverhaul$hotbar.setSize(hotbarSizeX, hotbarSizeY, false);
-            } catch (IOException e) {
-                InventoryOverhaul.LOGGER.error(e.getMessage());
-            }
+            // we need to sync on the PlayerJoin event to prevent trying to send data before a connection is created
+            inventoryoverhaul$setSize(inventorySizeX, inventorySizeY, false);
+            inventoryoverhaul$hotbar.setSize(hotbarSizeX, hotbarSizeY, false);
         }
     }
 
