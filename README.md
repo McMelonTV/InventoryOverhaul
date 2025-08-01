@@ -1,5 +1,5 @@
 [![Modrinth Downloads](https://img.shields.io/modrinth/dt/inventory-overhaul?style=for-the-badge&logo=modrinth&color=1bd96a)](https://modrinth.com/project/inventory-overhaul/versions)
-[![CurseForge Downloads](https://img.shields.io/curseforge/dt/1317181?style=for-the-badge&logo=curseforge&color=f16436)](https://www.curseforge.com/minecraft/mc-mods/inventory-overhaul/files/all)
+[![CurseForge Downloads](https://img.shields.io/curseforge/dt/1317181?style=for-the-badge&logo=curseforge&color=f16436)](https://www.curseforge.com/minecraft/mc-mods/inventory-overhaul/files/all?showAlphaFiles=show)
 [![GitHub Downloads](https://img.shields.io/github/downloads/McMelonTV/InventoryOverhaul/total?style=for-the-badge&logo=github&color=f0f6fc)](https://github.com/McMelonTV/InventoryOverhaul/releases/latest)
 
 # Inventory Overhaul
@@ -44,7 +44,7 @@ https://github.com/user-attachments/assets/f60c17a2-a35b-450a-85a8-b9eb9b5d94fc
    supports both Fabric and NeoForge, including derivatives like Quilt)
 2. Download the latest release of [Architectury API](https://modrinth.com/mod/architectury-api/versions) and the mod
    from [GitHub Releases](https://github.com/McMelonTV/InventoryOverhaul/releases/latest), [Modrinth](https://modrinth.com/project/inventory-overhaul/versions),
-   or [CurseForge](https://www.curseforge.com/minecraft/mc-mods/inventory-overhaul/files/all) for your Minecraft version as well as [Fabric API](https://modrinth.com/mod/fabric-api) if you are using Fabric/Quilt
+   or [CurseForge](https://www.curseforge.com/minecraft/mc-mods/inventory-overhaul/files/all?showAlphaFiles=show) for your Minecraft version as well as [Fabric API](https://modrinth.com/mod/fabric-api) if you are using Fabric/Quilt
 3. Add the mod and API jars file to your `.minecraft/mods` folder
 4. Set up the gamerules and client configuration to your liking
 5. Have fun!
